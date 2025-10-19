@@ -18,8 +18,8 @@ def create_app():
     migrate.init_app(app, db)
     from . import models
     
-    @app.route('/')
-    def hello_flask():
-        return 'Hello, Flask!'
+    from .views import main_views, api_views
+    app.register_blueprint(main_views.bp)
+    app.register_blueprint(api_views.bp)
     
     return app

@@ -1,0 +1,9 @@
+{% if location_list %}
+<ul>
+    {% for location in location_list %}
+    <li>{{ location.location }}({{ location.purpose }})</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>교실이 없습니다.</p>
+{% endif %}
