@@ -21,5 +21,5 @@ def create_app():
     from .views import main_views, api_views
     app.register_blueprint(main_views.bp)
     app.register_blueprint(api_views.bp)
-    
+
     return app
