@@ -1,10 +1,12 @@
-from flask import Blueprint, render_template
-
-from app.models import Locations
+from flask import Blueprint, render_template, redirect, url_for, abort
+from app.models import Locations, SensorDatas, MonthDatas, Recommend
+from sqlalchemy import desc
+import datetime
 
 bp = Blueprint('main', __name__, url_prefix='/')
 
+# 기본 서버 주소로 요청 시 교실 별 url로 리다이렉트하기
 @bp.route('/')
-def index():
-    location_list = Locations.query.order_by(Locations.location)
-    return render_template('main_page.html', location_list=location_list)
+def main():
+    return render_template('main_page.html')
+

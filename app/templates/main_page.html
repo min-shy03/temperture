@@ -1,9 +1,12 @@
-{% if location_list %}
-<ul>
-    {% for location in location_list %}
-    <li>{{ location.location }}({{ location.purpose }})</li>
-    {% endfor %}
-</ul>
-{% else %}
-<p>교실이 없습니다.</p>
-{% endif %}
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="page-info">글로벌시스템융합과 전용 웹사이트입니다.</h1>
+<div class="main-page">
+    <ul class="main-menu">
+        <li><a href="{{ url_for('introduce.show') }}">학과 소개</a></li>
+        <li><a href="{{ url_for('time-table.show') }}">학년별<br>시간표 확인</a></li>
+        <li><a href="{{ url_for('temp.show') }}">교실별<br>온・습도 확인</a></li>
+    </ul>
+</div>
+
+{% endblock %}

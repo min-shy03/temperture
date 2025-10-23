@@ -1,0 +1,169 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.main-page {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.main-menu {
+    display: flex;
+    list-style: none;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+.main-page ul li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+}
+
+.main-page ul a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    text-align: center;
+    background-color: rgb(46, 46, 167);
+    width: 300px;
+    height: 300px;
+    border-radius: 20px;
+    font-size: 30px;
+    font-weight: bold;
+    gap: 100px;
+}
+
+.main-page a:hover {
+    background-color: rgb(82, 172, 231);
+}
+
+hr {
+    width: 100%;
+    height: 1px;
+    background-color: black;
+    border: 0;
+}
+
+.introduce-page h2 {
+    font-size: 30px;
+}
+
+.page-info {
+    text-align: center;
+    font-size: 40px;
+    margin-top: 50px;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    align-items: center;
+    background-color: rgb(235, 116, 69);
+}
+
+.navbar a {
+    text-decoration: none;
+    color: black;
+}
+
+#navbar-brand {
+    font-size: 40px;
+    font-weight: bold;
+}
+
+#navbar-login {
+    font-size: 20px
+}
+
+.introduce-page {
+    display: flex;
+    flex-direction: column;
+    max-width: 1300px;
+    gap: 50px;
+    margin: 50px auto 0 auto;
+}
+
+.introduce-page-part {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.professor_list {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.professor {
+    width: 420px;
+    height: 420px;
+    background-color: aliceblue;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.professor p {
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+.professor-name {
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.professor-info {
+    font-weight: bold;
+}
+
+.introduce-page li {
+    list-style-position: inside;
+}
+
+.location {
+    display: flex;
+    gap: 100px;
+}
+
+.location-info-list li {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.location-info {
+    font-weight: bold;
+}
+
+.etc-info {
+    display: flex;
+    justify-content: space-evenly;
+    background-color: burlywood;
+    padding: 30px;
+    margin: 50px 0;
+    font-size: 20px;
+}
+
+.etc-info a {
+    text-decoration: none;
+    color: black;
+}
+
+.logo {
+    margin-right: 5px;
+    width: 20px;
+    height: 20px;
+}
