@@ -1,5 +1,95 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1 class="page-info">시간표 페이지입니다</h1>
-<div></div>
+<h1 class="page-info">글로벌시스템융합과 1학년 2학기 정규수업 시간표</h1>
+<div class="time-table-page">
+    <table class="time-table">
+        <thead class="time-table-day">
+            <tr>
+                <th></th>
+                <th>월 月</th>
+                <th>화 火</th>
+                <th>수 水</th>
+                <th>목 木</th>
+                <th>금 金</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="time-table-time">1교시<br>09:00 ~ 09:50</td>
+                <td class="time-table-class" data-day="mon" data-period="1"></td>
+                <td class="time-table-class" data-day="tue" data-period="1"></td>
+                <td class="time-table-class" data-day="wed" data-period="1"></td>
+                <td class="time-table-class" data-day="thu" data-period="1"></td>
+                <td class="time-table-class" data-day="fri" data-period="1"></td>
+            </tr>
+            <tr>
+                <td class="time-table-time">2교시<br>10:00 ~ 10:50</td>
+                <td class="time-table-class" data-day="mon" data-period="2"></td>
+                <td class="time-table-class" data-day="tue" data-period="2"></td>
+                <td class="time-table-class" data-day="wed" data-period="2"></td>
+                <td class="time-table-class" data-day="thu" data-period="2"></td>
+                <td class="time-table-class" data-day="fri" data-period="2"></td>
+            </tr>
+            <tr>
+                <td class="time-table-time">3교시<br>11:00 ~ 11:50</td>
+                <td class="time-table-class" data-day="mon" data-period="3"></td>
+                <td class="time-table-class" data-day="tue" data-period="3"></td>
+                <td class="time-table-class" data-day="wed" data-period="3"></td>
+                <td class="time-table-class" data-day="thu" data-period="3"></td>
+                <td class="time-table-class" data-day="fri" data-period="3"></td>
+            </tr>
+            <tr>
+                <td class="time-table-time">4교시<br>12:00 ~ 12:50</td>
+                <td class="time-table-class" data-day="mon" data-period="4"></td>
+                <td class="time-table-class" data-day="tue" data-period="4"></td>
+                <td class="time-table-class" data-day="wed" data-period="4"></td>
+                <td class="time-table-class" data-day="thu" data-period="4"></td>
+                <td class="time-table-class" data-day="fri" data-period="4"></td>
+            </tr>
+            <tr>
+                <td class="time-table-time">5교시<br>13:00 ~ 13:50</td>
+                <td class="time-table-class" data-day="mon" data-period="5"></td>
+                <td class="time-table-class" data-day="tue" data-period="5"></td>
+                <td class="time-table-class" data-day="wed" data-period="5"></td>
+                <td class="time-table-class" data-day="thu" data-period="5"></td>
+                <td class="time-table-class" data-day="fri" data-period="5"></td>
+            </tr>
+            <tr>
+                <td class="time-table-time">6교시<br>14:00 ~ 14:50</td>
+                <td class="time-table-class" data-day="mon" data-period="6"></td>
+                <td class="time-table-class" data-day="tue" data-period="6"></td>
+                <td class="time-table-class" data-day="wed" data-period="6"></td>
+                <td class="time-table-class" data-day="thu" data-period="6"></td>
+                <td class="time-table-class" data-day="fri" data-period="6"></td>
+            </tr>
+            <tr>
+                <td class="time-table-time">7교시<br>15:00 ~ 15:50</td>
+                <td class="time-table-class" data-day="mon" data-period="7"></td>
+                <td class="time-table-class" data-day="tue" data-period="7"></td>
+                <td class="time-table-class" data-day="wed" data-period="7"></td>
+                <td class="time-table-class" data-day="thu" data-period="7"></td>
+                <td class="time-table-class" data-day="fri" data-period="7"></td>
+            </tr>
+            <tr>
+                <td class="time-table-time">8교시<br>16:00 ~ 16:50</td>
+                <td class="time-table-class" data-day="mon" data-period="8"></td>
+                <td class="time-table-class" data-day="tue" data-period="8"></td>
+                <td class="time-table-class" data-day="wed" data-period="8"></td>
+                <td class="time-table-class" data-day="thu" data-period="8"></td>
+                <td class="time-table-class" data-day="fri" data-period="8"></td>
+            </tr>
+            <tr>
+                <td class="time-table-time">9교시<br>17:00 ~ 17:50</td>
+                <td class="time-table-class" data-day="mon" data-period="9"></td>
+                <td class="time-table-class" data-day="tue" data-period="9"></td>
+                <td class="time-table-class" data-day="wed" data-period="9"></td>
+                <td class="time-table-class" data-day="thu" data-period="9"></td>
+                <td class="time-table-class" data-day="fri" data-period="9"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="" class="time-table-edit">시간표 수정하기</a>
+
+</div>
 {% endblock %}

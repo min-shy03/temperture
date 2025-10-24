@@ -5,10 +5,13 @@
 }
 
 .page-info {
+    display: flex;
+    justify-content: center;
     text-align: center;
     font-size: 40px;
     margin-top: 50px;
     color: #333333;
+    gap: 20px;
 }
 
 .main-page {
@@ -86,6 +89,8 @@ hr {
 #navbar-login {
     font-size: 20px
 }
+
+/* 학과 소개 페이지 */
 
 .introduce-page {
     display: flex;
@@ -257,4 +262,53 @@ hr {
     border-radius: 8px;
     border: none;
     background-color: #E6E6FA;
+}
+
+/* 시간표 테이블 페이지 */
+.time-table-page {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.time-table-page table,
+td,
+th {
+    border: 2px solid black;
+    border-collapse: collapse;
+}
+
+.time-table-page td {
+    width: 250px;
+}
+
+.time-table-page tr {
+    height: 90px;
+}
+
+.time-table {
+    text-align: center;
+    font-size: 20px;
+    /* font-weight: bold; */
+}
+
+.time-table-page a {
+    text-decoration: none;
+}
+
+.time-table-page a:hover {
+    background-color: #6772E5;
+    color: white;
+}
+
+.time-table-edit {
+    margin: 25px 0px 0px 1295px;
+    padding: 10px 25px;
+    background-color: #E6E6FA;
+    color: #333333;
+    font-weight: bold;
+    font-size: 25px;
+    border-radius: 8px;
 }
