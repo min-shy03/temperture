@@ -1,6 +1,14 @@
 * {
     margin: 0;
     padding: 0;
+    color: #333333;
+}
+
+.page-info {
+    text-align: center;
+    font-size: 40px;
+    margin-top: 50px;
+    color: #333333;
 }
 
 .main-page {
@@ -34,17 +42,17 @@
     text-decoration: none;
     color: white;
     text-align: center;
-    background-color: rgb(46, 46, 167);
+    background-color: #6772E5;
     width: 300px;
     height: 300px;
     border-radius: 20px;
-    font-size: 30px;
+    font-size: 35px;
     font-weight: bold;
     gap: 100px;
 }
 
 .main-page a:hover {
-    background-color: rgb(82, 172, 231);
+    background-color: rgb(172, 96, 189);
 }
 
 hr {
@@ -58,23 +66,16 @@ hr {
     font-size: 30px;
 }
 
-.page-info {
-    text-align: center;
-    font-size: 40px;
-    margin-top: 50px;
-}
-
 .navbar {
     display: flex;
     justify-content: space-between;
     padding: 20px;
     align-items: center;
-    background-color: rgb(235, 116, 69);
+    background-color: #E6E6FA;
 }
 
 .navbar a {
     text-decoration: none;
-    color: black;
 }
 
 #navbar-brand {
@@ -159,11 +160,101 @@ hr {
 
 .etc-info a {
     text-decoration: none;
-    color: black;
+    color: #333333;
 }
 
 .logo {
     margin-right: 5px;
     width: 20px;
     height: 20px;
+}
+
+.etc-info a:hover {
+    text-decoration: underline;
+}
+
+/* 로그인 페이지 CSS */
+
+.login-page {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.login-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    border-radius: 5px;
+    background-color: white;
+    width: 500px;
+    height: 250px;
+    border: 1px solid #adadad;
+    border-radius: 8px;
+}
+
+.login-info-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    gap: 0px;
+}
+
+.login-info {
+    width: 100%;
+    padding: 10px 0;
+    transition: border-color 0.2s;
+    border: 1px solid #adadad;
+    background-color: white;
+    position: relative;
+}
+
+.login-info:first-child {
+    border-radius: 10px 10px 0px 0px;
+}
+
+.login-info:last-child {
+    border-radius: 0px 0px 10px 10px;
+    margin-top: -1px;
+}
+
+.login-info:focus-within {
+    border: 2px solid#6772E5;
+    z-index: 1;
+}
+
+.login-info label {
+    font-size: 12px;
+    color: #312b2b;
+    display: block;
+
+    padding: 0 12px;
+}
+
+.login-info input {
+    width: 100%;
+    font-size: 20px;
+    border: none;
+    outline: none;
+    margin-top: 5px;
+    box-sizing: border-box;
+    padding: 0 12px;
+}
+
+#login-button {
+    width: 90%;
+    padding: 15px;
+    font-size: 18px;
+    cursor: pointer;
+    font-weight: bold;
+
+    border-radius: 8px;
+    border: none;
+    background-color: #E6E6FA;
 }
