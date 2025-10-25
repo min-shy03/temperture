@@ -21,7 +21,13 @@ def login() :
         if error is None :
             session.clear()
             session['admin_id'] = admin.id
-            return redirect(url_for('main.main'))
+
+            next_url = request.form.get('next')
+
+            if not next_url or not next_url.startswith('/') :
+                next_url = url_for('main.main')
+
+            return redirect(next_url)
         
         flash(error)
 
@@ -38,4 +44,8 @@ def load_logged_in_admin() :
 @bp.route('/logout/')
 def logout() :
     session.clear()
-    return redirect(url_for('main.main'))
+    next_url = request.args.get('next')
+
+    if not next_url or not next_url.startswith('/') :
+        next_url = url_for('main.main')
+    return redirect(next_url)

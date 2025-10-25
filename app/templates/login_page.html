@@ -14,6 +14,7 @@
                 <input type="password" id="password" name="password" value="{{ form.password.data or '' }}">
             </div>
         </div>
+        <input type="hidden" name="next" value="{{ request.args.get('next', '') }}">
         <button type="submit" id="login-button">로그인</button>
     </form>
     {% include "form_errors.html" %}
