@@ -55,3 +55,21 @@ class Admins(db.Model) :
     std_num = db.Column(db.String(200), unique=True, nullable=False)
     # 관리자 비밀번호
     password = db.Column(db.String(200), nullable=False)
+
+# 강의 정보 테이블
+class lectures(db.Model) :
+    id = db.Column(db.Integer, primary_key=True)
+    # 학년
+    grade = db.Column(db.Integer, nullable=False)
+    # 학기
+    semester = db.Column(db.Integer, nullable=False)
+    # 강의명
+    lecture_name = db.Column(db.String(200), nullable=False)
+    # 교수 정보
+    professor = db.Column(db.String(200), nullable=False)
+    # 요일
+    day = db.Column(db.String(200), nullable=False)
+    # 교시
+    period = db.Column(db.Integer, nullable=False)
+    # 강의실
+    classroom = db.Column(db.String(200), nullable=False)
