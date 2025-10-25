@@ -318,11 +318,7 @@ th {
     /* font-weight: bold; */
 }
 
-.time-table-page a {
-    text-decoration: none;
-}
-
-.time-table-page a:hover {
+.time-table-page button:hover {
     background-color: #6772E5;
     color: white;
 }
@@ -402,4 +398,18 @@ th {
     justify-content: center;
     align-items: center;
     gap: 10px;
+}
+
+.temp-class-edit {
+    padding: 10px 25px;
+    background-color: #E6E6FA;
+    color: #333333;
+    font-weight: bold;
+    font-size: 25px;
+    border-radius: 8px;
+}
+
+.temp-class-edit:hover {
+    background-color: #6772E5;
+    color: white;
 }

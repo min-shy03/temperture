@@ -4,6 +4,9 @@
     <p>404호(1학년 교실)의 현재 온・습도</p>
     <select name="" id="">
     </select>
+    {% if g.admin %}
+    <button type="button" class="temp-class-edit">교실 정보 수정하기</button>
+    {% endif %}
 </h1>
 <div class="temp-page">
     <div class="real-time-data">
@@ -83,5 +86,6 @@
             </div>
         </div>
     </div>
+    <p>※ 모든 정보는 실시간으로 갱신됩니다.</p>
 </div>
 {% endblock %}
