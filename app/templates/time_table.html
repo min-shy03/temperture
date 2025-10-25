@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1 class="page-info">글로벌시스템융합과 1학년 2학기 정규수업 시간표</h1>
+<h1 class="page-info">글로벌시스템융합과 {{ grade }}학년 {{ semester }}학기 정규수업 시간표</h1>
 <div class="time-table-page">
     <table class="time-table">
         <thead class="time-table-day">
@@ -14,82 +14,35 @@
             </tr>
         </thead>
         <tbody>
+            {% for period in range(1,10) %}
             <tr>
-                <td class="time-table-time">1교시<br>09:00 ~ 09:50</td>
-                <td class="time-table-class" data-day="mon" data-period="1"></td>
-                <td class="time-table-class" data-day="tue" data-period="1"></td>
-                <td class="time-table-class" data-day="wed" data-period="1"></td>
-                <td class="time-table-class" data-day="thu" data-period="1"></td>
-                <td class="time-table-class" data-day="fri" data-period="1"></td>
+                <td class="time-table-time">
+                    {{ period }}교시<br>
+                    {{ "%02d:00 ~ %02d:50"|format(8+period, 8+period) }}
+                </td>
+                {% for day in ['mon', 'tue', 'wed', 'thu', 'fri'] %}
+                {% set cell_key = day + "_" + period|string %}
+                <td class="time-table-class" data-day="{{ day }}" data-period="{{ period }}" {% if
+                    time_table[cell_key]%} data-lecture-name="{{ time_table[cell_key].lecture_name }}"
+                    data-professor="{{ time_table[cell_key].professor }}"
+                    data-classroom="{{ time_table[cell_key].classroom }}" {% endif %}>
+                    {% if time_table[cell_key] %}
+                    <p>{{ time_table[cell_key].lecture_name }}</p>
+                    <p>{{ time_table[cell_key].professor }}</p>
+                    <p>{{ time_table[cell_key].classroom }}</p>
+                    {% endif %}
+                </td>
+                {% endfor %}
             </tr>
-            <tr>
-                <td class="time-table-time">2교시<br>10:00 ~ 10:50</td>
-                <td class="time-table-class" data-day="mon" data-period="2"></td>
-                <td class="time-table-class" data-day="tue" data-period="2"></td>
-                <td class="time-table-class" data-day="wed" data-period="2"></td>
-                <td class="time-table-class" data-day="thu" data-period="2"></td>
-                <td class="time-table-class" data-day="fri" data-period="2"></td>
-            </tr>
-            <tr>
-                <td class="time-table-time">3교시<br>11:00 ~ 11:50</td>
-                <td class="time-table-class" data-day="mon" data-period="3"></td>
-                <td class="time-table-class" data-day="tue" data-period="3"></td>
-                <td class="time-table-class" data-day="wed" data-period="3"></td>
-                <td class="time-table-class" data-day="thu" data-period="3"></td>
-                <td class="time-table-class" data-day="fri" data-period="3"></td>
-            </tr>
-            <tr>
-                <td class="time-table-time">4교시<br>12:00 ~ 12:50</td>
-                <td class="time-table-class" data-day="mon" data-period="4"></td>
-                <td class="time-table-class" data-day="tue" data-period="4"></td>
-                <td class="time-table-class" data-day="wed" data-period="4"></td>
-                <td class="time-table-class" data-day="thu" data-period="4"></td>
-                <td class="time-table-class" data-day="fri" data-period="4"></td>
-            </tr>
-            <tr>
-                <td class="time-table-time">5교시<br>13:00 ~ 13:50</td>
-                <td class="time-table-class" data-day="mon" data-period="5"></td>
-                <td class="time-table-class" data-day="tue" data-period="5"></td>
-                <td class="time-table-class" data-day="wed" data-period="5"></td>
-                <td class="time-table-class" data-day="thu" data-period="5"></td>
-                <td class="time-table-class" data-day="fri" data-period="5"></td>
-            </tr>
-            <tr>
-                <td class="time-table-time">6교시<br>14:00 ~ 14:50</td>
-                <td class="time-table-class" data-day="mon" data-period="6"></td>
-                <td class="time-table-class" data-day="tue" data-period="6"></td>
-                <td class="time-table-class" data-day="wed" data-period="6"></td>
-                <td class="time-table-class" data-day="thu" data-period="6"></td>
-                <td class="time-table-class" data-day="fri" data-period="6"></td>
-            </tr>
-            <tr>
-                <td class="time-table-time">7교시<br>15:00 ~ 15:50</td>
-                <td class="time-table-class" data-day="mon" data-period="7"></td>
-                <td class="time-table-class" data-day="tue" data-period="7"></td>
-                <td class="time-table-class" data-day="wed" data-period="7"></td>
-                <td class="time-table-class" data-day="thu" data-period="7"></td>
-                <td class="time-table-class" data-day="fri" data-period="7"></td>
-            </tr>
-            <tr>
-                <td class="time-table-time">8교시<br>16:00 ~ 16:50</td>
-                <td class="time-table-class" data-day="mon" data-period="8"></td>
-                <td class="time-table-class" data-day="tue" data-period="8"></td>
-                <td class="time-table-class" data-day="wed" data-period="8"></td>
-                <td class="time-table-class" data-day="thu" data-period="8"></td>
-                <td class="time-table-class" data-day="fri" data-period="8"></td>
-            </tr>
-            <tr>
-                <td class="time-table-time">9교시<br>17:00 ~ 17:50</td>
-                <td class="time-table-class" data-day="mon" data-period="9"></td>
-                <td class="time-table-class" data-day="tue" data-period="9"></td>
-                <td class="time-table-class" data-day="wed" data-period="9"></td>
-                <td class="time-table-class" data-day="thu" data-period="9"></td>
-                <td class="time-table-class" data-day="fri" data-period="9"></td>
-            </tr>
+            {% endfor %}
         </tbody>
     </table>
     {% if g.admin %}
     <button type="button" class="time-table-edit">시간표 수정하기</button>
     {% endif %}
 </div>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/time_table.js') }}"></script>
 {% endblock %}

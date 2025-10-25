@@ -321,6 +321,7 @@ th {
 .time-table-page button:hover {
     background-color: #6772E5;
     color: white;
+    cursor: pointer;
 }
 
 .time-table-edit {
@@ -412,4 +413,5 @@ th {
 .temp-class-edit:hover {
     background-color: #6772E5;
     color: white;
+    cursor: pointer;
 }

@@ -57,7 +57,7 @@ class Admins(db.Model) :
     password = db.Column(db.String(200), nullable=False)
 
 # 강의 정보 테이블
-class lectures(db.Model) :
+class Lectures(db.Model) :
     id = db.Column(db.Integer, primary_key=True)
     # 학년
     grade = db.Column(db.Integer, nullable=False)
