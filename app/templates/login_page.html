@@ -2,22 +2,21 @@
 {% block content %}
 <h1 class="page-info">관리자 로그인</h1>
 <div class="login-page">
-    <form action="" class="login-box" method="post">
+    <form class="login-box" method="post">
+        {{ form.csrf_token }}
         <div class="login-info-group">
             <div class="login-info">
                 <label for="std-num">학번</label>
-                <input type="text" id="std-num" name="std_num">
+                <input type="text" id="std-num" name="std_num" value="{{ form.std_num.data or '' }}">
             </div>
             <div class="login-info">
                 <label for="password">비밀번호</label>
-                <input type="password" id="password" name="password">
+                <input type="password" id="password" name="password" value="{{ form.password.data or '' }}">
             </div>
         </div>
         <button type="submit" id="login-button">로그인</button>
     </form>
+    {% include "form_errors.html" %}
 </div>
-
 </div>
-
-
 {% endblock %}

@@ -90,6 +90,26 @@ hr {
     font-size: 20px
 }
 
+#logined {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    font-size: 20px;
+}
+
+#admin-name {
+    display: flex;
+    width: 65px;
+    height: 65px;
+    background-color: #6772E5;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+}
+
 /* 학과 소개 페이지 */
 
 .introduce-page {
@@ -311,4 +331,8 @@ th {
     font-weight: bold;
     font-size: 25px;
     border-radius: 8px;
+}
+
+.alert p {
+    color: red;
 }

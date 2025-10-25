@@ -1,4 +1,11 @@
 <nav class="navbar">
     <a id="navbar-brand" href="{{ url_for('main.main') }}">GSC WEB</a>
+    {% if g.admin %}
+    <div id="logined">
+        <p id="admin-name">{{ g.admin.name }}</p>
+        <a id="navbar-logout" href="{{ url_for('login.logout') }}">로그아웃</a>
+    </div>
+    {% else %}
     <a id="navbar-login" href="{{ url_for('login.login') }}">관리자 로그인</a>
+    {% endif %}
 </nav>
