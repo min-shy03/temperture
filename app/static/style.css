@@ -284,6 +284,10 @@ hr {
     background-color: #E6E6FA;
 }
 
+.alert p {
+    color: red;
+}
+
 /* 시간표 테이블 페이지 */
 .time-table-page {
     margin-top: 50px;
@@ -333,6 +337,69 @@ th {
     border-radius: 8px;
 }
 
-.alert p {
-    color: red;
+
+/* 온습도 페이지 */
+.temp-page {
+    margin-top: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.real-time-data {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    text-align: center;
+    gap: 200px;
+    font-size: 25px;
+}
+
+.numerical-data {
+    font-size: 100px;
+    margin-bottom: 50px;
+}
+
+.vertical {
+    border-left: 2px solid black;
+    height: 200px;
+}
+
+#recommend-temp {
+    font-size: 20px;
+}
+
+.month-datas {
+    margin-top: 30px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.month-datas h2 {
+    font-size: 30px;
+}
+
+.month-data-box {
+    display: grid;
+    gap: 30px;
+    grid-template-columns: repeat(6, 1fr);
+}
+
+.month-box {
+    background-color: #E6E6FA;
+    border-radius: 8px;
+    text-align: center;
+
+    width: 200px;
+    height: 150px;
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 }
