@@ -1,0 +1,89 @@
+.introduce-page {
+    display: flex;
+    flex-direction: column;
+    max-width: 1300px;
+    gap: 50px;
+    margin: 50px auto 0 auto;
+}
+
+.introduce-page-part {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.professor_list {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.professor {
+    width: 420px;
+    height: 420px;
+    background-color: aliceblue;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.professor p {
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+.professor-name {
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.professor-info {
+    font-weight: bold;
+}
+
+.introduce-page li {
+    list-style-position: inside;
+}
+
+.location {
+    display: flex;
+    gap: 100px;
+}
+
+.location-info-list li {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.location-info {
+    font-weight: bold;
+}
+
+.etc-info {
+    display: flex;
+    justify-content: space-evenly;
+    background-color: burlywood;
+    padding: 30px;
+    margin: 50px 0;
+    font-size: 20px;
+}
+
+.etc-info a {
+    text-decoration: none;
+    color: #333333;
+}
+
+.logo {
+    margin-right: 5px;
+    width: 20px;
+    height: 20px;
+}
+
+.etc-info a:hover {
+    text-decoration: underline;
+}
+
+.introduce-page h2 {
+    font-size: 30px;
+}

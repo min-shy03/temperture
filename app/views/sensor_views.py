@@ -3,10 +3,10 @@ from ..models import Locations, SensorDatas
 from .. import db
 from sqlalchemy.exc import SQLAlchemyError
 
-bp = Blueprint('api', __name__, url_prefix='/api')
+bp = Blueprint('sensor', __name__, url_prefix='/sensor')
 
 # 센서로부터 들어오는 데이터 처리 API
-@bp.route('/sensor-data', methods=('POST',))
+@bp.route('/api/sensor-data', methods=('POST',))
 def sensor_data() :
     try :
         # 센서로부터 JSON 형식의 데이터 수집하기

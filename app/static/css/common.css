@@ -1,0 +1,64 @@
+* {
+    margin: 0;
+    padding: 0;
+    color: #333333;
+}
+
+.page-info {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-size: 40px;
+    margin-top: 50px;
+    color: #333333;
+    gap: 20px;
+}
+
+hr {
+    width: 100%;
+    height: 1px;
+    background-color: black;
+    border: 0;
+}
+
+.form-group input[type="text"] {
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form-btn {
+    margin-top: 20px;
+    display: flex;
+    justify-content: right;
+    align-items: right;
+    gap: 20px;
+}
+
+.save-btn {
+    padding: 5px 20px;
+    background-color: #28a745;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.delete-btn {
+    padding: 5px 20px;
+    background-color: #dc3545;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.save-btn:hover,
+.delete-btn:hover {
+    cursor: pointer;
+}

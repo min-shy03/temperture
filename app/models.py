@@ -73,3 +73,5 @@ class Lectures(db.Model) :
     period = db.Column(db.Integer, nullable=False)
     # 강의실
     classroom = db.Column(db.String(200), nullable=False)
+    # 강의 색상
+    color = db.Column(db.String(7), nullable=True, default='#FFFFFF')

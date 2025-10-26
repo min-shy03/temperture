@@ -1,0 +1,40 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    align-items: center;
+    background-color: #E6E6FA;
+}
+
+.navbar a {
+    text-decoration: none;
+}
+
+#navbar-brand {
+    font-size: 40px;
+    font-weight: bold;
+}
+
+#navbar-login {
+    font-size: 20px
+}
+
+#logined {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    font-size: 20px;
+}
+
+#admin-name {
+    display: flex;
+    width: 65px;
+    height: 65px;
+    background-color: #6772E5;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+}
