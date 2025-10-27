@@ -1,14 +1,27 @@
 from flask import Flask
+from flask_apscheduler import APScheduler
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
+from sqlalchemy import func, extract
 import config
+import redis
+# from .models import SensorDatas, MonthDatas
+# from . import db
 
 # db, migrate 객체 생성
 db = SQLAlchemy()
 migrate = Migrate()
 
 csrf = CSRFProtect()
+# 우체국 같은 느낌 메세지를 주고받는 용도
+redis_client = redis.Redis(host=config.REDIS_HOST, port=config.REDIS_PORT, decode_responses=True)
+scheduler = APScheduler()
+
+# def calculate_monthly_average() :
+#     app = create_app()
+#     with app.app_context() :
+
 
 # 객체 초기화 함수
 def create_app():

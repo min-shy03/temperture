@@ -62,3 +62,9 @@ hr {
 .delete-btn:hover {
     cursor: pointer;
 }
+
+.select-bar {
+    font-size: 20px;
+    vertical-align: middle;
+    padding: 10px;
+}

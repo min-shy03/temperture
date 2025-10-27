@@ -1,12 +1,14 @@
 from flask import Blueprint, request, jsonify
 from ..models import Locations, SensorDatas
-from .. import db
+from .. import db, redis_client
 from sqlalchemy.exc import SQLAlchemyError
+from app import csrf
 
 bp = Blueprint('sensor', __name__, url_prefix='/sensor')
 
 # 센서로부터 들어오는 데이터 처리 API
 @bp.route('/api/sensor-data', methods=('POST',))
+@csrf.exempt
 def sensor_data() :
     try :
         # 센서로부터 JSON 형식의 데이터 수집하기
@@ -46,6 +48,9 @@ def sensor_data() :
         new_data = SensorDatas(location=location_name, temp=temp, humi=humi)
         db.session.add(new_data)
         db.session.commit()
+
+        # 'sensor_updates' 채널에 'new_data_arrived' 메세지 전송
+        redis_client.publish('sensor_updates', 'new_data_arrived')
 
         return jsonify({"message": "데이터 저장 성공!"}), 201
     

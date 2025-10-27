@@ -1,0 +1,27 @@
+version: '3.8' # 도커 컴포즈 버전
+
+services:
+  # Flask 웹 앱 서비스
+  web:
+    build: . # 현재 폴더의 Dockerfile로 이미지 빌드
+    ports:
+      - "5000:5000" # 내 PC 5000번 포트 <-> 컨테이너 5000번 포트 연결
+    volumes:
+      # 개발 시 코드 수정 자동 반영 위해 현재 폴더 마운트 (선택 사항)
+      - .:/app
+    environment:
+      # 컨테이너 내부 환경 변수 설정
+      - FLASK_ENV=development # 개발 모드
+      - FLASK_APP=app:create_app # Flask 앱 위치 (app/__init__.py의 create_app)
+      - FLASK_DEBUG=1 # 디버그 모드
+      # 중요: Redis 서비스 이름('redis')으로 접속하도록 설정
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - redis # Redis가 먼저 켜진 후 웹 앱 시작
+
+  # Redis 서비스
+  redis:
+    image: "redis:alpine" # 공식 Redis 이미지 (가벼운 버전) 사용
+    ports:
+      - "6379:6379" # Redis 포트 연결 (선택 사항)

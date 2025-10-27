@@ -2,12 +2,12 @@
 {% block content %}
 <h1 class="page-info">
     글로벌시스템융합과 {{ grade }}학년 {{ semester }}학기 정규수업 시간표
-    <select id="grade-select">
+    <select id="grade-select" class="select-bar">
         <option value="1" {% if grade==1 %} selected {% endif %}>1학년</option>
         <option value="2" {% if grade==2 %} selected {% endif %}>2학년</option>
         <option value="3" {% if grade==3 %} selected {% endif %}>3학년</option>
     </select>
-    <select id="semester-select">
+    <select id="semester-select" class="select-bar">
         <option value="1" {% if semester==1 %} selected {% endif %}>1학기</option>
         <option value="2" {% if semester==2 %} selected {% endif %}>2학기</option>
     </select>

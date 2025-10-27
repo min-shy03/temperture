@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
 <h1 class="page-info">
-    <p>404호(1학년 교실)의 현재 온・습도</p>
-    <select name="" id="">
+    <p>{{ selected_location }}({{ purpose }})의 현재 온・습도</p>
+    <select id="location-select" class="select-bar">
+        {% for location in location_list %}
+        <option value="{{ location.location }}">{{ location.location }}</option>
+        {% endfor %}
     </select>
     {% if g.admin %}
     <button type="button" class="temp-class-edit">교실 정보 수정하기</button>
@@ -11,12 +14,12 @@
 <div class="temp-page">
     <div class="real-time-data">
         <div class="temp">
-            <p class="numerical-data">19.3℃</p>
+            <p class="numerical-data" id="current-temp">19.3℃</p>
             <p>온도</p>
         </div>
         <div class="vertical"></div>
         <div class="humi">
-            <p class="numerical-data">43.2%</p>
+            <p class="numerical-data" id="current-humi">43.2%</p>
             <p>습도</p>
         </div>
     </div>
@@ -88,4 +91,8 @@
     </div>
     <p>※ 모든 정보는 실시간으로 갱신됩니다.</p>
 </div>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/temp.js') }}"></script>
 {% endblock %}

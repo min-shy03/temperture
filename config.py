@@ -8,3 +8,5 @@ SQLALCHEMY_DATABASE_URI = 'sqlite:///{}'.format(os.path.join(BASE_DIR, 'temp.db'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 SECRET_KEY = "dev"
+REDIS_HOST = os.environ.get('REDIS_HOST', 'localhost')
+REDIS_PORT = int(os.environ.get('REDIS_PORT', 6379))
