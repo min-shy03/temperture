@@ -14,85 +14,57 @@
 <div class="temp-page">
     <div class="real-time-data">
         <div class="temp">
-            <p class="numerical-data" id="current-temp">19.3℃</p>
+            <p class="numerical-data" id="current-temp">{{ temp }}℃</p>
             <p>온도</p>
         </div>
         <div class="vertical"></div>
         <div class="humi">
-            <p class="numerical-data" id="current-humi">43.2%</p>
+            <p class="numerical-data" id="current-humi">{{ humi }}%</p>
             <p>습도</p>
         </div>
     </div>
-    <p id="recommend-temp">오늘은 10월 25일입니다. 추천 온도는 19~23도 입니다.</p>
+    <p id="recommend-temp">오늘은 {{ current_date }}입니다. 추천 온도는 {{ recommend_temp }}도 입니다.</p>
     <div class="month-datas">
         <h2>지난 1년간 평균 온・습도</h2>
         <div class="month-data-box">
+            {% for i in range(1,13) %}
             <div class="month-box">
+                {% set month_data = month_data_dict.get(i) %}
+                {% if month_data %}
+                <p>평균 온도 : {{ month_data.avg_temp | round(1) }}℃</p>
+                <p>평균 습도 : {{ month_data.avg_humi | round(1) }}%</p>
+                {% else %}
                 <p>측정 데이터 없음</p>
                 <p>측정 데이터 없음</p>
-                <p style="font-weight: bold;">1월</p>
+                {% endif %}
+                <p style="font-weight: bold;">{{ i }}월</p>
             </div>
-            <div class="month-box">
-                <p>평균 온도 : 19.3℃</p>
-                <p>평균 습도 :</p>
-                <p style="font-weight: bold;">2월</p>
-            </div>
-            <div class="month-box">
-                <p>평균 온도</p>
-                <p>평균 습도</p>
-                <p style="font-weight: bold;">3월</p>
-            </div>
-            <div class="month-box">
-                <p>평균 온도</p>
-                <p>평균 습도</p>
-                <p style="font-weight: bold;">4월</p>
-            </div>
-            <div class="month-box">
-                <p>평균 온도</p>
-                <p>평균 습도</p>
-                <p style="font-weight: bold;">5월</p>
-            </div>
-            <div class="month-box">
-                <p>평균 온도</p>
-                <p>평균 습도</p>
-                <p style="font-weight: bold;">6월</p>
-            </div>
-            <div class="month-box">
-                <p>평균 온도</p>
-                <p>평균 습도</p>
-                <p style="font-weight: bold;">7월</p>
-            </div>
-            <div class="month-box">
-                <p>평균 온도</p>
-                <p>평균 습도</p>
-                <p style="font-weight: bold;">8월</p>
-            </div>
-            <div class="month-box">
-                <p>평균 온도</p>
-                <p>평균 습도</p>
-                <p style="font-weight: bold;">9월</p>
-            </div>
-            <div class="month-box">
-                <p>평균 온도</p>
-                <p>평균 습도</p>
-                <p style="font-weight: bold;">10월</p>
-            </div>
-            <div class="month-box">
-                <p>평균 온도</p>
-                <p>평균 습도</p>
-                <p style="font-weight: bold;">11월</p>
-            </div>
-            <div class="month-box">
-                <p>평균 온도</p>
-                <p>평균 습도</p>
-                <p style="font-weight: bold;">12월</p>
-            </div>
+            {% endfor %}
         </div>
     </div>
     <p>※ 모든 정보는 실시간으로 갱신됩니다.</p>
 </div>
+
+<div class="edit-modal-backdrop">
+    <div id="temp-edit-modal-content">
+        <span class="close-modal-btn">&times;</span>
+        <h2>교실 수정</h2>
+
+        <div class="form-btn">
+            <button type="submit" class="save-btn">저장하기</button>
+            <button type="button" class="delete-btn">삭제</button>
+        </div>
+        </form>
+    </div>
+</div>
+
 {% endblock %}
 
 {% block script %}
+
+<script>
+    const streamUrl = "{{ url_for('temp.stream') }}"; 
+</script>
+
 <script src="{{ url_for('static', filename='js/temp.js') }}"></script>
 {% endblock %}
