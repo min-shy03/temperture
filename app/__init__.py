@@ -6,7 +6,7 @@ from flask_wtf.csrf import CSRFProtect
 from sqlalchemy import func, extract
 import config
 import redis
-from .models import SensorDatas, MonthDatas
+# from .models import SensorDatas, MonthDatas
 from datetime import datetime, timedelta
 
 # db, migrate 객체 생성
@@ -18,14 +18,14 @@ csrf = CSRFProtect()
 redis_client = redis.Redis(host=config.REDIS_HOST, port=config.REDIS_PORT, decode_responses=True)
 scheduler = APScheduler()
 
-def calculate_monthly_average() :
-    from . import create_app, db, redis_client
-    app = create_app()
-    with app.app_context() :
-        kst = datetime.now().astimezone()
-        current_month = kst.month
-        previous_month = 12 if current_month == 1 else current_month - 1
-        current_year
+# def calculate_monthly_average() :
+#     from . import create_app, db, redis_client
+#     app = create_app()
+#     with app.app_context() :
+#         kst = datetime.now().astimezone()
+#         current_month = kst.month
+#         previous_month = 12 if current_month == 1 else current_month - 1
+#         current_year
 
 
 # 객체 초기화 함수
