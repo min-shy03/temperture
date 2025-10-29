@@ -1,0 +1,13 @@
+{% for i in range(1,13) %}
+<div class="month-box">
+    {% set month_data = month_data_dict.get(i) %}
+    {% if month_data %}
+    <p>평균 온도 : {{ month_data.avg_temp | round(1) }}℃</p>
+    <p>평균 습도 : {{ month_data.avg_humi | round(1) }}%</p>
+    {% else %}
+    <p>측정 데이터 없음</p>
+    <p>측정 데이터 없음</p>
+    {% endif %}
+    <p style="font-weight: bold;">{{ i }}월</p>
+</div>
+{% endfor %}

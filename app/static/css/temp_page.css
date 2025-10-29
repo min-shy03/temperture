@@ -88,6 +88,106 @@
     max-height: 400px;
     height: 90%;
     text-align: center;
-
     position: relative;
+}
+
+#modal-tabs {
+    margin-top: 10px;
+    display: flex;
+    justify-content: left;
+    border-bottom: 2px solid black;
+    margin-bottom: 25px;
+}
+
+.modal-tab-btn {
+    padding: 10px 20px;
+    font-size: 22px;
+    font-weight: 600;
+    border: none;
+    background-color: transparent;
+    color: #888;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    /* margin-bottom: -2px; */
+    transition: all 0.2s ease-in-out;
+}
+
+.modal-tab-btn:hover {
+    color: #555;
+    background-color: #ecebeb;
+}
+
+.modal-tab-btn.active {
+    color: black;
+    background-color: rgb(189, 186, 186);
+}
+
+.modal-tab {
+    display: none;
+}
+
+.modal-tab.active {
+    display: block;
+}
+
+.modal-title {
+    font-size: 24px;
+    margin: 20px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #333;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.form-control[readonly] {
+    background-color: #eee;
+    cursor: not-allowed;
+}
+
+.form-btn {
+    margin-top: 25px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.modal-message {
+    display: none;
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.modal-message.show {
+    display: block;
+}
+
+.modal-message.success {
+    background-color: #e6f7ec;
+    color: #218838;
+}
+
+.modal-message.error {
+    background-color: #fbe9e9;
+    color: #c92333;
 }

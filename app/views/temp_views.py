@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, jsonify, Response, stream_with_context, request
 from .. import db, redis_client
 from ..models import SensorDatas, Locations, MonthDatas, Recommend
-from sqlalchemy import desc
+from sqlalchemy import desc, or_
 import pytz
 from datetime import datetime
 import json
@@ -11,19 +11,29 @@ bp = Blueprint('temp', __name__, url_prefix='/temp')
 @bp.route('/')
 def show() :
     # 목적이 정해지지 않은(추가 되지 않은 교실을 제외한 교실 목록 가져오기)
-    location_list = Locations.query.filter(Locations.purpose != None).order_by(Locations.location).all()
+    location_list = Locations.query.order_by(Locations.location).all()
     
-    # 기본 값은 404호 고정
-    default_location = '404호'
-    selected_location = request.args.get('location', default='404호', type=str)
+    unassigned_locations = Locations.query.filter(or_(Locations.purpose == None, Locations.purpose == '')).order_by(Locations.location).all()
+
+    if not location_list :
+        return render_template('404.html')
+
+    default_location = location_list[0].location
+    selected_location = request.args.get('location', default=default_location, type=str)
     
     # 이상한 호실로 입력되면 404호 표시
-    if not any(loc.location == selected_location for loc in location_list) :
-        selected_location = default_location
+    selected_location_obj = None
 
     for loc in location_list :
         if loc.location == selected_location :
-            purpose = loc.purpose
+            selected_location_obj = loc
+            break
+
+    if not selected_location_obj :
+        selected_location_obj = location_list[0]
+        selected_location = selected_location_obj.location
+
+    purpose = selected_location_obj.purpose or "목적 미지정"
 
     # 가장 최신 데이터 띄워놓기
     latest_reading = SensorDatas.query.filter_by(location=selected_location).order_by(desc(SensorDatas.record_date)).first()
@@ -49,6 +59,7 @@ def show() :
         'temp_page.html', 
         location_list=location_list, 
         selected_location=selected_location, 
+        unassigned_locations=unassigned_locations,
         purpose=purpose,
         temp=temp,
         humi=humi,
@@ -57,9 +68,18 @@ def show() :
         recommend_temp=recommend_temp
     )
 
+@bp.route('/month-data')
+def month_data() :
+    selected_location = request.args.get('location', default='404호', type=str)
+
+    month_data_list = MonthDatas.query.filter_by(location=selected_location).order_by(MonthDatas.month).all()
+    month_data_dict = {data.month : data for data in month_data_list}
+
+    return render_template('temp_page_month_data_box.html', month_data_dict=month_data_dict)
 
 @bp.route('/stream')
 def stream() :
+    client_location = request.args.get('location', '404호', type=str)
     last_yielded_date = None
 
     pubsub = redis_client.pubsub()
@@ -72,7 +92,12 @@ def stream() :
         for message in pubsub.listen() :
             print(f"Redis 메세지 수신 : {message}")
 
-            if message['type'] == 'message' :
+            if message['type'] != 'message' :
+                continue
+            
+            channel = message['channel']
+
+            if channel == 'sensor_updates' :
                 kst = pytz.timezone('Asia/Seoul')
                 now_kst = datetime.now(kst)
                 current_date = now_kst.date()
@@ -93,13 +118,66 @@ def stream() :
                     # 값의 뒤에 \n\n를 붙이는 이유는 이벤트가 하나 끝났다는 신호임
                     yield f"event: date_update\ndata: {date_update_json}\n\n"
                     last_yielded_date = current_date
+                
+                try :
+                    message_data = message['data']
+                    data = json.loads(message_data)
+                    updated_location = data.get('location')
 
-                latest_data = SensorDatas.query.order_by(desc(SensorDatas.record_date)).first()
-                temp = latest_data.temp
-                humi = latest_data.humi
+                    if updated_location == client_location :
+                        temp = data.get('temp')
+                        humi = data.get('humi')
 
-                data_json = json.dumps({"temp" : float(temp), "humi" : float(humi)}, ensure_ascii=False)
-                sse_message = f"data: {data_json}\n\n"
-                yield sse_message
+                        if temp is not None and humi is not None :
+                            data_json = json.dumps({"temp" : float(temp), "humi" : float(humi)}, ensure_ascii=False)
+                            sse_message = f"data: {data_json}\n\n"
+                            yield sse_message
+                
+                except Exception as e :
+                    print(f"SSE 센서 데이터 처리 오류 : {e}, 받은 데이터: {message['data']}")
+            
+            elif channel == 'month_update' :
+                print("월별 데이터 갱신 신호(SSE) 전송")
+
+                yield f"event: month_data_update\ndata: refresh\n\n"
     
     return Response(stream_with_context(event_stream()), mimetype='text/event-stream')
+
+@bp.route('/api/location/<string:location_name>', methods=['GET', 'PUT', 'DELETE'])
+def manage_location(location_name) :
+    location = Locations.query.filter_by(location=location_name).first()
+
+    if not location :
+        return jsonify({"success" : False, "message": "해당 교실을 찾을 수 없습니다." }), 404
+    
+    if request.method == 'GET' :
+        return jsonify({
+            "success" : True,
+            "location" : location.location,
+            "purpose" : location.purpose or ""    
+        })
+    
+    if request.method == 'PUT' :
+        data = request.json
+        new_purpose = data.get('purpose')
+
+        if not new_purpose or len(new_purpose.strip()) == 0 :
+            return jsonify({"success" : False, "message": "교실 목적을 입력하세요."}), 400
+        
+        try :
+            location.purpose = new_purpose
+            db.session.commit()
+            return jsonify({"success": True, "message": f"'{location_name}' 정보가 수정되었습니다."})
+        except Exception as e :
+            db.session.rollback()
+            return jsonify({"success": False, "message": f"수정 중 오류 발생: {str(e)}"}), 500
+        
+    if request.method == 'DELETE' :
+        try :
+            db.session.delete(location)
+            db.session.commit()
+            return jsonify({"success": True, "message": f"'{location_name}' 교실이 삭제되었습니다."})
+        
+        except Exception as e :
+            db.session.rollback()
+            return jsonify({"success": False, "message": f"삭제 중 오류 발생: {str(e)}"}), 500

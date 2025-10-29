@@ -20,9 +20,9 @@ class Locations(db.Model) :
     # 센서의 위치 정보
     location = db.Column(db.String(200), primary_key=True, nullable=False)
     # 센서의 실시간 데이터를 역참조할 변수
-    readings = db.relationship('SensorDatas', backref=db.backref('location_info'))
+    readings = db.relationship('SensorDatas', backref=db.backref('location_info'), cascade='all, delete-orphan')
     # 센서의 월 별 평균을 역참조할 변수
-    month_readings = db.relationship('MonthDatas', backref=db.backref('location_month_avg'))
+    month_readings = db.relationship('MonthDatas', backref=db.backref('location_month_avg'), cascade='all, delete-orphan')
     # 센서 목적 
     # 교실 추가 전까진 Null인 채로 있어야함으로 Null 허용
     purpose = db.Column(db.String(200), nullable=True)

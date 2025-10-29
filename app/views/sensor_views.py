@@ -3,6 +3,7 @@ from ..models import Locations, SensorDatas
 from .. import db, redis_client
 from sqlalchemy.exc import SQLAlchemyError
 from app import csrf
+import json
 
 bp = Blueprint('sensor', __name__, url_prefix='/sensor')
 
@@ -49,8 +50,15 @@ def sensor_data() :
         db.session.add(new_data)
         db.session.commit()
 
+        data_to_send = {
+            "location" : new_data.location,
+            "temp" : float(new_data.temp),
+            "humi" : float(new_data.humi)
+        }
+
+        message_json = json.dumps(data_to_send, ensure_ascii=False)
         # 'sensor_updates' 채널에 'new_data_arrived' 메세지 전송
-        redis_client.publish('sensor_updates', 'new_data_arrived')
+        redis_client.publish('sensor_updates', message_json)
 
         return jsonify({"message": "데이터 저장 성공!"}), 201
     
