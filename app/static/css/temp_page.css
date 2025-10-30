@@ -136,7 +136,7 @@
     text-align: center;
 }
 
-.form-group {
+#temp-edit-modal-content .form-group {
     margin-bottom: 20px;
 }
 
