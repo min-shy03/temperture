@@ -1,13 +1,8 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <title>404 Error</title>
-</head>
-
-<body>
-    <h1>Error : 404</h1>
+{% extends 'base.html' %}
+{% block content %}
+<div id="error-404">
+    <div id="error-x"></div>
+    <h1>ERROR : 404</h1>
     <h2>현재 센서가 설치된 교실이 없습니다.</h2>
-</body>
-
-</html>
+</div>
+{% endblock %}

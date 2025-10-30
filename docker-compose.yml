@@ -1,5 +1,3 @@
-version: '3.8' # 도커 컴포즈 버전
-
 services:
   # Flask 웹 앱 서비스
   web:

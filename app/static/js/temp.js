@@ -80,28 +80,42 @@ const csrfToken = document.getElementById('csrf_token') ? document.getElementByI
 const formAdd = document.getElementById('form-add-location');
 const addSelect = document.getElementById('add-location-select');
 const addPurposeInput = document.getElementById('add-purpose');
-const addMessage = document.getElementById('add-message');
 
 const formEdit = document.getElementById('form-edit-location');
 const editSelect = document.getElementById('edit-location-select');
 const editPurposeInput = document.getElementById('edit-purpose');
-const editMessage = document.getElementById('edit-message');
 
 const formDelete = document.getElementById('form-delete-location');
 const deleteSelect = document.getElementById('delete-location-select');
 const deletePurposeInput = document.getElementById('delete-purpose-readonly');
-const deleteMessage = document.getElementById('delete-message');
 
-function showMessage(element, message, isSuccess = false) {
-    if (!element) return;
-    element.textContent = message;
-    element.className = 'modal-message show ' + (isSuccess ? 'success' : 'error');
+const modalToast = document.getElementById('modal-toast');
+let toastTimer;
+
+function showMessage(message, isSuccess = false) {
+    if (!modalToast) return;
+    if (toastTimer) {
+        clearTimeout(toastTimer);
+    }
+
+    modalToast.textContent = message;
+
+    modalToast.className = 'modal-message';
+    modalToast.classList.add(isSuccess ? 'success' : 'error');
+    modalToast.classList.add('show');
+
+    toastTimer = setTimeout(() => {
+        modalToast.classList.remove('show');
+    }, 3000);
 }
 
 function hideMessage() {
-    [addMessage, editMessage, deleteMessage].forEach(el => {
-        if (el) el.className = 'modal-message';
-    });
+    if (modalToast) {
+        modalToast.classList.remove('show');
+    }
+    if (toastTimer) {
+        clearTimeout(toastTimer);
+    }
 }
 
 function openEditModal() {
@@ -317,22 +331,26 @@ if (formDelete) {
 }
 
 function handleApiResponse(response, tabName) {
-    let messageEl;
-    if (tabName === 'add') messageEl = addMessage;
-    else if (tabName === 'edit') messageEl = editMessage;
-    else if (tabName === 'delete') messageEl = deleteMessage;
-
     response.json().then(data => {
+
+        showMessage(data.message, data.success);
+
         if (data.success) {
-            showMessage(messageEl, data.message, true);
             setTimeout(() => {
-                window.location.reload();
+                const currentUrl = new URL(window.location.href);
+
+                if (tabName === 'delete') {
+                    currentUrl.searchParams.delete('location');
+                } else if (data.location) {
+                    currentUrl.searchParams.set('location', data.location);
+                }
+
+                window.location.href = currentUrl.href;
+
             }, 2000);
-        } else {
-            showMessage(messageEl, `작업 실패 : ${data.message}`, false);
         }
     }).catch(error => {
         console.error("API 응답 처리 실패:", error);
-        showMessage(messageEl, "요청 중 오류가 발생했습니다.", false);
+        showMessage("요청 중 오류가 발생했습니다.", false);
     });
 }

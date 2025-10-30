@@ -1,10 +1,11 @@
-from flask import Blueprint, render_template, jsonify, Response, stream_with_context, request
+from flask import Blueprint, render_template, jsonify, Response, stream_with_context, request, current_app
 from .. import db, redis_client
 from ..models import SensorDatas, Locations, MonthDatas, Recommend
 from sqlalchemy import desc, or_
 import pytz
 from datetime import datetime
 import json
+from ..__init__ import calculate_monthly_average
 
 bp = Blueprint('temp', __name__, url_prefix='/temp')
 
@@ -89,6 +90,8 @@ def stream() :
     def event_stream() :
         nonlocal last_yielded_date
 
+        app = current_app._get_current_object()
+
         for message in pubsub.listen() :
             print(f"Redis 메세지 수신 : {message}")
 
@@ -105,7 +108,8 @@ def stream() :
                 # 하루가 바뀌면 날짜 초기화 및 달이 바뀌면 추천 온도 초기화
                 if last_yielded_date != current_date :
                     current_date_str = now_kst.strftime("%m월 %d일")
-                    recommend_temp = Recommend.query.filter_by(month=now_kst.month).first().recommend_temp
+                    with app.app_context() :
+                        recommend_temp = Recommend.query.filter_by(month=now_kst.month).first().recommend_temp
 
                     # 파이썬 데이터를 JSON 문자열로 변환하는 함수.
                     # ensure_ascii = False 를 통해 한글이 깨지지 않도록 함
@@ -181,3 +185,13 @@ def manage_location(location_name) :
         except Exception as e :
             db.session.rollback()
             return jsonify({"success": False, "message": f"삭제 중 오류 발생: {str(e)}"}), 500
+        
+@bp.route('/test-month-job')
+def test_momth_job() :
+    
+    try :
+        calculate_monthly_average()
+
+        return "월 평균 계산 작업 수동 실행 완료."
+    except Exception as e :
+        return f"작업 실행 중 오류 발생 : {str(e)}"

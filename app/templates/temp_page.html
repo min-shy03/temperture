@@ -48,6 +48,7 @@
 </div>
 
 <div class="edit-modal-backdrop">
+    <div id="modal-toast" class="modal-message"></div>
     <div id="temp-edit-modal-content">
         <span class="close-modal-btn">&times;</span>
         <div id="modal-tabs">
@@ -75,9 +76,8 @@
                     </div>
                     <div class="form-group">
                         <label for="add-purpose">교실 목적 (예 : 1학년 교실)</label>
-                        <input type="text" id="add-purpose" class="form-control" placeholder="목적 입력 (없으면 비워두기)">
+                        <input type="text" id="add-purpose" class="form-control" placeholder="목적 입력">
                     </div>
-                    <div id="add-message" class="modal-message"></div>
                     <div class="form-btn">
                         <button type="submit" class="save-btn">추가하기</button>
                     </div>
@@ -101,7 +101,6 @@
                         <label for="edit-purpose">교실 목적 (예 : 1학년 교실)</label>
                         <input type="text" id="edit-purpose" class="form-control" placeholder="목적 입력">
                     </div>
-                    <div id="edit-message" class="modal-message"></div>
                     <div class="form-btn">
                         <button type="submit" class="save-btn">수정하기</button>
                     </div>
@@ -125,7 +124,6 @@
                         <label for="delete-purpose-readonly">교실 목적</label>
                         <input type="text" id="delete-purpose-readonly" class="form-control" readonly>
                     </div>
-                    <div id="delete-message" class="modal-message"></div>
                     <div class="form-btn">
                         <button type="submit" class="delete-btn">삭제하기</button>
                     </div>

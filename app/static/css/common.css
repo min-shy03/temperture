@@ -99,3 +99,43 @@ hr {
     cursor: pointer;
     line-height: 1;
 }
+
+#error-x {
+    width: 300px;
+    height: 300px;
+
+    position: relative;
+    margin-bottom: 30px;
+}
+
+#error-x::before,
+#error-x::after {
+    content: '';
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    width: 100%;
+    height: 30px;
+    background-color: black;
+    border: 6px;
+}
+
+#error-x::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+#error-x::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+#error-404 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: calc(100vh - 180px);
+    gap: 20px;
+    text-align: center;
+}
