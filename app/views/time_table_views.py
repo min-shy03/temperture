@@ -7,13 +7,16 @@ bp = Blueprint('time-table', __name__, url_prefix='/time-table')
 
 @bp.route('/')
 def show() :
+    # JS를 이용해서 만든 url에서 grade값과 semester값 가져오기
     grade = request.args.get('grade', default=1, type=int)
     semester = request.args.get('semester', default=1, type=int)
     
+    # 학년과 학기를 만족하는 강의 목록 가져오기
     slots = Lectures.query.filter_by(grade=grade, semester=semester).all()
 
     time_table = {}
     for slot in slots :
+        # 각 [요일_교시]를 키로 하여 딕셔너리 생성
         key = f"{slot.day}_{slot.period}"
         time_table[key] = slot
 
@@ -21,6 +24,7 @@ def show() :
 
 @bp.route('/api/update', methods=['POST',])
 def update() :
+    # 로그인이 안돼있을 경우
     if not g.admin :
         return jsonify({'success' : False, 'message' : '관리자 권한 필요'}), 403
     

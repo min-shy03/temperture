@@ -6,6 +6,7 @@
         <a id="navbar-logout" href="{{ url_for('login.logout', next=request.full_path) }}">로그아웃</a>
     </div>
     {% else %}
+    <!-- 로그인 버튼을 누르면 next 값으로 현재 url을 넘겨주어 로그인이 완료되면 다시 원래 페이지로 이동하게 값을 넘겨줌 -->
     <a id="navbar-login" href="{{ url_for('login.login', next=request.full_path) }}">관리자 로그인</a>
     {% endif %}
 </nav>

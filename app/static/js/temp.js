@@ -3,12 +3,15 @@ const currentHumi = document.getElementById('current-humi');
 const monthDataContainer = document.getElementById('month-data-container');
 const recommendTempText = document.getElementById('recommend-temp');
 
+// SSE를 구독하기 위한 EventSource 객체 생성
+// streamUrl = temp_views에 저장한 api 주소로 서버에 접속 후 stream 함수 실행
 const eventSource = new EventSource(streamUrl);
 
 console.log(streamUrl);
 
 eventSource.addEventListener('message', function (event) {
     try {
+        // parse() = 서버로부터 받은 JSON 문자열을 자바스크립트가 쓸 수 있는 객체로 변환
         const data = JSON.parse(event.data);
 
         if (currentTemp && data.temp !== null && data.temp !== undefined) {
@@ -42,6 +45,8 @@ eventSource.addEventListener('date_update', function (event) {
 eventSource.addEventListener('month_data_update', function (event) {
     console.log("월별 데이터 갱신 신호 수신", event.data);
 
+    // .then() = 한 메소드가 끝나면 실행할 작업을 등록하는 함수 (await와 비슷한 효과다.)
+    // 여기서는 fetch() 가 끝난 후 끝날 작업이 또 끝난 후 메소드를 또 지정해주었다.
     fetch(monthDataUrl)
         .then(response => {
             if (!response.ok) {
@@ -62,8 +67,10 @@ eventSource.addEventListener('month_data_update', function (event) {
 
 eventSource.addEventListener('error', function (event) {
     console.error("SSE 연결 오류 발생:", event);
+    // 연결이 아예 끊겼을 때
     if (event.target.readyState === EventSource.CLOSED) {
         console.log("SSE 연결이 종료되었습니다.");
+        // 연결이 아직 살아 있을 때
     } else if (event.target.readyState === EventSource.CONNECTING) {
         console.log("SSE 재연결 중...");
     }
@@ -104,6 +111,7 @@ function showMessage(message, isSuccess = false) {
     modalToast.classList.add(isSuccess ? 'success' : 'error');
     modalToast.classList.add('show');
 
+    // setTimeout() = 특정 시간 뒤에 이 코드를 딱 한 번만 실행해라.
     toastTimer = setTimeout(() => {
         modalToast.classList.remove('show');
     }, 3000);

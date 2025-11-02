@@ -8,6 +8,7 @@ function changeTimeTable() {
         const selectedGrade = gradeSelect.value;
         const selectedSemester = semesterSelect.value;
 
+        // select에서 각 학년, 학기가 선택되면 새로운 url 생성 후 페이지 전환
         const newUrl = `/time-table/?grade=${selectedGrade}&semester=${selectedSemester}`;
 
         window.location.href = newUrl;
@@ -41,6 +42,7 @@ const colorSwatchesContainer = document.querySelector('.color-swatches')
 const allColorSwatches = colorSwatchesContainer ? colorSwatchesContainer.querySelectorAll('.color-swatch') : [];
 const hiddenColorInput = document.getElementById('modal-color')
 
+// 시간표 선택시 실행할 이벤트 함수
 function openEditModal(event) {
     const clickedCell = event.currentTarget;
     const day = clickedCell.dataset.day;
@@ -80,12 +82,14 @@ function openEditModal(event) {
     }
 }
 
+// 모달 닫기 이벤트 함수
 function closeModal() {
     if (modalBackdrop) {
         modalBackdrop.classList.remove('show');
     }
 }
 
+// 시간표 수정하기 버튼 클릭시 모든 테이블 선택 활성화 시키는 이벤트 함수
 function enterEditMode(event) {
     alert("시간표를 수정합니다.")
 
@@ -100,6 +104,7 @@ function enterEditMode(event) {
     editButton.addEventListener('click', exitEditMode);
 }
 
+// 시간표 수정 완료 후 원 상태로 복구 시키는 이벤트 함수
 function exitEditMode() {
     alert("시간표 수정을 마칩니다.")
 
@@ -114,8 +119,8 @@ function exitEditMode() {
     editButton.addEventListener('click', enterEditMode);
 }
 
+// 수정 시 색상 선택 이벤트 함수
 function handleColorSelect(event) {
-    console.log("handleColorSelect 함수 실행됨! 클릭된 버튼:", event.currentTarget);
     const selectedButton = event.currentTarget;
     const selectedColor = selectedButton.dataset.color;
 
@@ -130,15 +135,20 @@ function handleColorSelect(event) {
     }
 }
 
+// 각각의 색상 버튼에 이벤트 추가
 allColorSwatches.forEach(button => {
     button.addEventListener('click', handleColorSelect);
 })
 
 // 비동기 함수를 이용해 데이터 통신 (async = 이 함수가 비동기 함수임을 알리는 장치)
 async function handleFormSubmit(event) {
+    // 새로고침 방지 함수
     event.preventDefault();
 
+    // modalForm에 입력된 데이터들을 fromData 변수에 대입
     const formData = new FormData(modalForm);
+    // entries() = formData에서 입력받은 name과 value를 배열로 변환
+    // fromEntries() = entries()에서 배열로 변환한 데이터를 자바스크립트 객체로 변환
     const data = Object.fromEntries(formData.entries());
     const headers = {
         'Content-Type': 'application/json',
@@ -149,6 +159,9 @@ async function handleFormSubmit(event) {
     }
 
     try {
+        // await = 시간이 걸리는 비동기 함수(예 : fetch)가 완료될 때까지 코드 실행을 일시 정지 (await가 없으면 진짜 데이터를 받아오지 못함)
+        // fetch() = 파이썬의 request 함수처럼 요청을 보내는 함수(기본적으로 비동기 함수이기 때문에, await와 같이 필요. 그렇지 않으면 데이터를 받지 못한 채 다음 함수를 실행하여 제대로 된 값을 처리 못함)
+        // stringify() = 자바스크립트 객체를 JSON 문자열로 변환
         const response = await fetch('/time-table/api/update', {
             method: 'POST',
             headers: headers,

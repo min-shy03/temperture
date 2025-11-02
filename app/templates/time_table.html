@@ -33,8 +33,8 @@
                 </td>
                 {% for day in ['mon', 'tue', 'wed', 'thu', 'fri'] %}
                 {% set cell_key = day + "_" + period|string %}
-                <td class="time-table-class" data-day="{{ day }}" data-period="{{ period }}" {% if
-                    time_table[cell_key]%} data-lecture-name="{{ time_table[cell_key].lecture_name }}"
+                <td class="time-table-class" data-day="{{ day }}" data-period="{{ period }}" {% if time_table[cell_key]
+                    %} data-lecture-name="{{ time_table[cell_key].lecture_name }}"
                     data-professor="{{ time_table[cell_key].professor }}"
                     data-classroom="{{ time_table[cell_key].classroom }}" data-color="{{ time_table[cell_key].color }}"
                     style="background-color: {{ time_table[cell_key].color if time_table[cell_key].color else '#FFFFFF' }};"
