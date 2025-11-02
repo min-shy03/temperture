@@ -87,13 +87,14 @@ def create_app():
     migrate.init_app(app, db)
     from . import models
     
-    from .views import main_views, sensor_views, login_views, time_table_views, introduce_views, temp_views
+    from .views import main_views, sensor_views, login_views, time_table_views, introduce_views, temp_views, cleaning_views
     app.register_blueprint(main_views.bp)
     app.register_blueprint(sensor_views.bp)
     app.register_blueprint(login_views.bp)
     app.register_blueprint(time_table_views.bp)
     app.register_blueprint(temp_views.bp)
     app.register_blueprint(introduce_views.bp)
+    app.register_blueprint(cleaning_views.bp)
 
     csrf.init_app(app)
 

@@ -8,18 +8,16 @@
 }
 
 .main-menu {
-    display: flex;
-    list-style: none;
-    flex-wrap: wrap;
-    flex-grow: 1;
-    flex-shrink: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 400px);
+    gap: 40px;
 }
 
 .main-page ul li {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 20px;
+    margin: 10px;
 }
 
 .main-page ul a {
@@ -35,7 +33,6 @@
     border-radius: 20px;
     font-size: 35px;
     font-weight: bold;
-    gap: 100px;
 }
 
 .main-page a:hover {

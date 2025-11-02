@@ -75,3 +75,19 @@ class Lectures(db.Model) :
     classroom = db.Column(db.String(200), nullable=False)
     # 강의 색상
     color = db.Column(db.String(7), nullable=True, default='#FFFFFF')
+
+# 청소 담당 전용 테이블
+class ClassMember(db.Model) :
+    id = db.Column(db.Integer, primary_key=True)
+    # 학년
+    grade = db.Column(db.Integer, nullable=False)
+    # 이름
+    name = db.Column(db.String(200), nullable=False)
+    # 성별
+    gender = db.Column(db.String(20), nullable=False)
+    # 반대, 부반대, 일반 학생 여부
+    position = db.Column(db.String(20), nullable=False)
+    # 실시 여부
+    check = db.Column(db.Boolean, default=False, nullable=False)
+    # 금주 청소 당번 여부
+    this_week = db.Column(db.Boolean, default=False, nullable=False)

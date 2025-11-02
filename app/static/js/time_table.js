@@ -1,6 +1,6 @@
 const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 // 학기 선택 기능
-const gradeSelect = document.getElementById('grade-select');
+const gradeSelect = document.getElementById('time-table-grade-select');
 const semesterSelect = document.getElementById('semester-select');
 
 function changeTimeTable() {
