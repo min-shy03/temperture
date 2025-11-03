@@ -178,14 +178,241 @@ if (formAdd) {
 
             if (response.ok) {
                 showMessage(result.message, true);
-
                 formAdd.reset();
+
+                const uncheckedList = document.querySelector('.unchecked-box .student-list');
+                const newLi = document.createElement('li');
+                const newName = studentData.name;
+                newLi.textContent = newName;
+
+                if (uncheckedList) {
+                    const existingItems = uncheckedList.querySelectorAll('li');
+
+                    let insertionPoint = null;
+
+                    for (const currentItem of existingItems) {
+                        const currentName = currentItem.textContent;
+
+                        if (newName.localeCompare(currentName) < 0) {
+                            insertionPoint = currentItem;
+                            break;
+                        }
+                    }
+
+                    if (insertionPoint) {
+                        uncheckedList.insertBefore(newLi, insertionPoint);
+                    } else {
+                        uncheckedList.appendChild(newLi);
+                    }
+                }
             } else {
                 throw new Error(result.message);
             }
         } catch (error) {
             console.error('학생 추가 오류:', error);
             showMessage(error.message || '요청 중 오류가 발생했습니다.', false);
+        }
+    });
+}
+
+if (editGradeSelect) {
+    editGradeSelect.addEventListener('change', async function () {
+        const grade = editGradeSelect.value;
+
+        editStudentSelect.disabled = true;
+        editStudentSelect.innerHTML = '<option value="">-- 학생을 선택하세요 --</option>';
+        editStudentFields.classList.add('hidden');
+        hideMessage();
+
+        if (!grade) return;
+
+        try {
+            const response = await fetch(`/cleaning/api/grade-members?grade=${grade}`);
+            if (!response.ok) throw new Error('학생 목록 로드 실패');
+
+            const students = await response.json();
+
+            students.forEach(student => {
+                const option = document.createElement('option');
+                option.value = student.id;
+                option.textContent = `${student.name} (${student.position})`;
+                editStudentSelect.appendChild(option);
+            });
+
+            editStudentSelect.disabled = false;
+        } catch (error) {
+            showMessage(error.message, false);
+        }
+    })
+}
+
+if (editStudentSelect) {
+    editStudentSelect.addEventListener('change', async function () {
+        const studentId = editStudentSelect.value;
+        hideMessage();
+
+        if (!studentId) {
+            editStudentFields.classList.add('hidden');
+            return;
+        }
+
+        try {
+            const response = await fetch(`/cleaning/api/member/${studentId}`);
+            if (!response.ok) throw new Error('학생 정보 로드 실패');
+
+            const student = await response.json();
+
+            editNameInput.value = student.name;
+            editGenderInput.value = student.gender;
+            editPositionInput.value = student.position;
+
+            editStudentFields.classList.remove('hidden');
+        } catch (error) {
+            showMessage(error.message, false);
+        }
+    });
+}
+
+if (formEdit) {
+    formEdit.addEventListener('submit', async function (event) {
+        event.preventDefault();
+        hideMessage();
+
+        const studentId = editStudentSelect.value;
+        if (!studentId) {
+            showMessage("수정할 학생을 선택하세요.", false);
+            return;
+        }
+
+        const updatedData = {
+            gender: editGenderInput.value,
+            position: editPositionInput.value
+        };
+
+        try {
+            const response = await fetch(`/cleaning/api/member/${studentId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
+                },
+                body: JSON.stringify(updatedData)
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                showMessage(result.message, true);
+                setTimeout(() => {
+                    closeModal();
+                    window.location.reload();
+                }, 2000);
+            } else {
+                throw new Error(result.message);
+            }
+        } catch (error) {
+            showMessage(error.message, false);
+        }
+    });
+}
+
+if (deleteGradeSelect) {
+    deleteGradeSelect.addEventListener('change', async function () {
+        const grade = deleteGradeSelect.value;
+
+        deleteStudentSelect.disabled = true;
+        deleteStudentSelect.innerHTML = '<option value="">-- 학생을 선택하세요 --</option>';
+        deleteStudentFields.classList.add('hidden');
+        hideMessage();
+
+        if (!grade) return;
+
+        try {
+            const response = await fetch(`/cleaning/api/grade-members?grade=${grade}`);
+            if (!response.ok) throw new Error('학생 목록 로드 실패');
+
+            const students = await response.json();
+
+            students.forEach(student => {
+                const option = document.createElement('option');
+                option.value = student.id;
+                option.textContent = `${student.name} (${student.position})`;
+                deleteStudentSelect.appendChild(option);
+            });
+
+            deleteStudentSelect.disabled = false;
+        } catch (error) {
+            showMessage(error.message, false);
+        }
+    });
+}
+
+if (deleteStudentSelect) {
+    deleteStudentSelect.addEventListener('change', async function () {
+        const studentId = deleteStudentSelect.value;
+        hideMessage();
+
+        if (!studentId) {
+            deleteStudentFields.classList.add('hidden');
+            return;
+        }
+
+        try {
+            const response = await fetch(`/cleaning/api/member/${studentId}`);
+            if (!response.ok) throw new Error('학생 정보 로드 실패');
+
+            const student = await response.json();
+
+            deleteNameInput.value = student.name;
+            deletePositionInput.value = student.position;
+
+            deleteStudentFields.classList.remove('hidden');
+        } catch (error) {
+            showMessage(error.message, false);
+        }
+    });
+}
+
+if (formDelete) {
+    formDelete.addEventListener('submit', async function (event) {
+        event.preventDefault();
+        hideMessage();
+
+        const studentId = deleteStudentSelect.value;
+        // 확인 메시지를 위해 <option>의 텍스트를 가져옵니다.
+        const studentName = deleteStudentSelect.options[deleteStudentSelect.selectedIndex].text;
+
+        if (!studentId) {
+            showMessage("삭제할 학생을 선택하세요.", false);
+            return;
+        }
+
+        // (중요) 삭제 확인
+        if (!confirm(`정말로 '${studentName}' 학생을 삭제하시겠습니까?`)) {
+            return; // '취소' 누르면 중단
+        }
+
+        try {
+            const response = await fetch(`/cleaning/api/member/${studentId}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRFToken': csrfToken
+                }
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                showMessage(result.message, true);
+                setTimeout(() => {
+                    closeModal();
+                    window.location.reload();
+                }, 2000);
+            } else {
+                throw new Error(result.message);
+            }
+        } catch (error) {
+            showMessage(error.message, false);
         }
     });
 }
@@ -212,5 +439,39 @@ function handleApiResponse(response, tabName) {
     }).catch(error => {
         console.error("API 응답 처리 실패:", error);
         showMessage("요청 중 오류가 발생했습니다.", false);
+    });
+}
+
+const drawButton = document.getElementById('cleaning-member-draw')
+
+if (drawButton) {
+    drawButton.addEventListener('click', async function () {
+        const currentGrade = gradeSelect.value;
+
+        if (!confirm(`${currentGrade}학년 당번을 새로 뽑으시겠습니까?`)) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`/cleaning/api/draw?grade=${currentGrade}`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'X-CSRFToken': csrfToken
+                }
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                alert(result.message);
+                window.location.reload();
+            } else {
+                throw new Error(result.message);
+            }
+        } catch (error) {
+            console.error('청소 당번 뽑기 오류:', error);
+            alert(error.message || '요청 중 오류가 발생했습니다.');
+        }
     });
 }

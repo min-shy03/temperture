@@ -15,14 +15,20 @@
 <div id="cleaning-page">
     <div id="this-week-member-box">
         <ul id="this-week-member-list">
-            <li>김민규</li>
-            <li>민수현</li>
-            <li>정우영</li>
-            <li>이찬우</li>
+            {% if this_week_member_list %}
+            {% for member in this_week_member_list %}
+            <li>{{ member.name }}</li>
+            {% endfor %}
+            {% else %}
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            {% endif %}
         </ul>
     </div>
     {% if g.admin %}
-    <button type="button" class="cleaning-member-draw">청소 당번 다시 뽑기</button>
+    <button type="button" id="cleaning-member-draw">청소 당번 뽑기</button>
     {% endif %}
     <div class="status-wrapper">
         <div class="status-box unchecked-box">
@@ -45,150 +51,153 @@
 </div>
 
 <div class="edit-modal-backdrop">
-    <div id="modal-toast" class="modal-message"></div>
-    <div id="cleaning-member-edit-modal-content">
-        <span class="close-modal-btn">&times;</span>
-        <div id="modal-tabs">
-            <button type="button" class="modal-tab-btn active" data-tab="add">추가</button>
-            <button type="button" class="modal-tab-btn" data-tab="edit">수정</button>
-            <button type="button" class="modal-tab-btn" data-tab="delete">삭제</button>
-        </div>
-
-        <input type="hidden" id="csrf_token" name="csrf_token" value="{{ csrf_token() }}">
-
-        <div class="modal-content-area">
-
-            <!-- 추가 탭 폼 -->
-            <div id="tab-add" class="modal-tab active">
-                <form id="form-add-student">
-                    <h2 class="modal-title">학생 추가</h2>
-                    <div class="form-group">
-                        <label for="student-grade">학년 선택</label>
-                        <select id="student-grade" name="grade" class="form-control" required>
-                            <option value="">-- 학년 선택 --</option>
-                            <option value="1">1학년</option>
-                            <option value="2">2학년</option>
-                            <option value="3">3학년</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="student-name">이름</label>
-                        <input type="text" id="student-name" name="name" class="form-control" placeholder="이름 입력"
-                            required>
-                    </div>
-                    <div class="form-group">
-                        <label for="student-gender">성별 선택</label>
-                        <select id="student-gender" class="form-control" name="gender" required>
-                            <option value="">-- 성별 선택 --</option>
-                            <option value="남">남자</option>
-                            <option value="여">여자</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="student-position">직위 선택</label>
-                        <select id="student-position" class="form-control" name="position" required>
-                            <option value="">-- 직위 선택 --</option>
-                            <option value="반대">반대</option>
-                            <option value="부반대">부반대</option>
-                            <option value="일반">일반 학생</option>
-                        </select>
-                    </div>
-                    <div class="form-btn">
-                        <button type="submit" class="save-btn">추가하기</button>
-                    </div>
-                </form>
+    <div class="modal-stack">
+        <div id="modal-toast" class="modal-message"></div>
+        <div id="cleaning-member-edit-modal-content">
+            <span class="close-modal-btn">&times;</span>
+            <div id="modal-tabs">
+                <button type="button" class="modal-tab-btn active" data-tab="add">추가</button>
+                <button type="button" class="modal-tab-btn" data-tab="edit">수정</button>
+                <button type="button" class="modal-tab-btn" data-tab="delete">삭제</button>
+                <button type="button" class="modal-tab-btn" data-tab="promote">학년 교체</button>
             </div>
 
-            <!-- 수정 탭 폼 -->
-            <div id="tab-edit" class="modal-tab">
-                <form id="form-edit-student">
-                    <h2 class="modal-title">학생 정보 수정</h2>
+            <input type="hidden" id="csrf_token" name="csrf_token" value="{{ csrf_token() }}">
 
-                    <div class="form-group">
-                        <label for="edit-grade-select">학년 선택</label>
-                        <select id="edit-grade-select" class="form-control" required>
-                            <option value="">-- 학년 선택 --</option>
-                            <option value="1">1학년</option>
-                            <option value="2">2학년</option>
-                            <option value="3">3학년</option>
-                        </select>
-                    </div>
+            <div class="modal-content-area">
 
-                    <div class="form-group">
-                        <label for="edit-student-select">학생 선택</label>
-                        <!-- disabled를 주어 학년을 고르지 않을 때 학생 선택 불가하도록 -->
-                        <select id="edit-student-select" class="form-control" required disabled>
-                            <option value="">-- 학생을 선택하세요 --</option>
-                        </select>
-                    </div>
-
-                    <div id="edit-student-fields" class="hidden">
+                <!-- 추가 탭 폼 -->
+                <div id="tab-add" class="modal-tab active">
+                    <form id="form-add-student">
+                        <h2 class="modal-title">학생 추가</h2>
                         <div class="form-group">
-                            <label for="edit-student-name">이름 (수정 불가)</label>
-                            <input type="text" id="edit-student-name" name="name" class="form-control" readonly>
+                            <label for="student-grade">학년 선택</label>
+                            <select id="student-grade" name="grade" class="form-control" required>
+                                <option value="">-- 학년 선택 --</option>
+                                <option value="1">1학년</option>
+                                <option value="2">2학년</option>
+                                <option value="3">3학년</option>
+                            </select>
                         </div>
-
                         <div class="form-group">
-                            <label for="edit-student-gender">성별</label>
-                            <select id="edit-student-gender" class="form-control" name="gender" required>
+                            <label for="student-name">이름</label>
+                            <input type="text" id="student-name" name="name" class="form-control" placeholder="이름 입력"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="student-gender">성별 선택</label>
+                            <select id="student-gender" class="form-control" name="gender" required>
+                                <option value="">-- 성별 선택 --</option>
                                 <option value="남">남자</option>
                                 <option value="여">여자</option>
                             </select>
                         </div>
-
                         <div class="form-group">
-                            <label for="edit-student-position">직위</label>
-                            <select id="edit-student-position" class="form-control" name="position" required>
+                            <label for="student-position">직위 선택</label>
+                            <select id="student-position" class="form-control" name="position" required>
+                                <option value="">-- 직위 선택 --</option>
                                 <option value="반대">반대</option>
                                 <option value="부반대">부반대</option>
                                 <option value="일반">일반 학생</option>
                             </select>
                         </div>
+                        <div class="form-btn">
+                            <button type="submit" class="save-btn">추가하기</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- 수정 탭 폼 -->
+                <div id="tab-edit" class="modal-tab">
+                    <form id="form-edit-student">
+                        <h2 class="modal-title">학생 정보 수정</h2>
+
+                        <div class="form-group">
+                            <label for="edit-grade-select">학년 선택</label>
+                            <select id="edit-grade-select" class="form-control" required>
+                                <option value="">-- 학년 선택 --</option>
+                                <option value="1">1학년</option>
+                                <option value="2">2학년</option>
+                                <option value="3">3학년</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="edit-student-select">학생 선택</label>
+                            <!-- disabled를 주어 학년을 고르지 않을 때 학생 선택 불가하도록 -->
+                            <select id="edit-student-select" class="form-control" required disabled>
+                                <option value="">-- 학생을 선택하세요 --</option>
+                            </select>
+                        </div>
+
+                        <div id="edit-student-fields" class="hidden">
+                            <div class="form-group">
+                                <label for="edit-student-name">이름 (수정 불가)</label>
+                                <input type="text" id="edit-student-name" name="name" class="form-control" readonly>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edit-student-gender">성별</label>
+                                <select id="edit-student-gender" class="form-control" name="gender" required>
+                                    <option value="남">남자</option>
+                                    <option value="여">여자</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edit-student-position">직위</label>
+                                <select id="edit-student-position" class="form-control" name="position" required>
+                                    <option value="반대">반대</option>
+                                    <option value="부반대">부반대</option>
+                                    <option value="일반">일반 학생</option>
+                                </select>
+                            </div>
+
+                            <div class="form-btn">
+                                <button type="submit" class="save-btn">수정하기</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- 삭제 탭 폼 -->
+                <div id="tab-delete" class="modal-tab">
+                    <form id="form-delete-student">
+                        <h2 class="modal-title">학생 삭제</h2>
+
+                        <div class="form-group">
+                            <label for="delete-grade-select">학년 선택</label>
+                            <select id="delete-grade-select" class="form-control" required>
+                                <option value="">-- 학년 선택 --</option>
+                                <option value="1">1학년</option>
+                                <option value="2">2학년</option>
+                                <option value="3">3학년</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="delete-student-select">학생 선택</label>
+                            <select id="delete-student-select" class="form-control" required disabled>
+                                <option value="">-- 학생을 선택하세요 --</option>
+                            </select>
+                        </div>
+
+                        <div id="delete-student-fields" class="hidden">
+                            <div class="form-group">
+                                <label>이름</label>
+                                <input type="text" id="delete-student-name" class="form-control" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>직위</label>
+                                <input type="text" id="delete-student-position" class="form-control" readonly>
+                            </div>
+                        </div>
 
                         <div class="form-btn">
-                            <button type="submit" class="save-btn">수정하기</button>
+                            <button type="submit" class="delete-btn">삭제하기</button>
                         </div>
-                    </div>
-                </form>
-            </div>
-
-            <!-- 삭제 탭 폼 -->
-            <div id="tab-delete" class="modal-tab">
-                <form id="form-delete-student">
-                    <h2 class="modal-title">학생 삭제</h2>
-
-                    <div class="form-group">
-                        <label for="delete-grade-select">학년 선택</label>
-                        <select id="delete-grade-select" class="form-control" required>
-                            <option value="">-- 학년 선택 --</option>
-                            <option value="1">1학년</option>
-                            <option value="2">2학년</option>
-                            <option value="3">3학년</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="delete-student-select">학생 선택</label>
-                        <select id="delete-student-select" class="form-control" required disabled>
-                            <option value="">-- 학생을 선택하세요 --</option>
-                        </select>
-                    </div>
-
-                    <div id="delete-student-fields" class="hidden">
-                        <div class="form-group">
-                            <label>이름</label>
-                            <input type="text" id="delete-student-name" class="form-control" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label>직위</label>
-                            <input type="text" id="delete-student-position" class="form-control" readonly>
-                        </div>
-                    </div>
-
-                    <div class="form-btn">
-                        <button type="submit" class="delete-btn">삭제하기</button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

@@ -48,86 +48,88 @@
 </div>
 
 <div class="edit-modal-backdrop">
-    <div id="modal-toast" class="modal-message"></div>
-    <div id="temp-edit-modal-content">
-        <span class="close-modal-btn">&times;</span>
-        <div id="modal-tabs">
-            <button type="button" class="modal-tab-btn active" data-tab="add">추가</button>
-            <button type="button" class="modal-tab-btn" data-tab="edit">수정</button>
-            <button type="button" class="modal-tab-btn" data-tab="delete">삭제</button>
-        </div>
-
-        <input type="hidden" id="csrf_token" name="csrf_token" value="{{ csrf_token() }}">
-
-        <div class="modal-content-area">
-
-            <!-- 추가 탭 폼 -->
-            <div id="tab-add" class="modal-tab active">
-                <form id="form-add-location">
-                    <h2 class="modal-title">교실 추가</h2>
-                    <div class="form-group">
-                        <label for="add-location">교실 선택</label>
-                        <select id="add-location-select" class="form-control">
-                            <option value="">-- 교실 선택 --</option>
-                            {% for loc in unassigned_locations %}
-                            <option value="{{ loc.location }}">{{ loc.location }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="add-purpose">교실 목적 (예 : 1학년 교실)</label>
-                        <input type="text" id="add-purpose" class="form-control" placeholder="목적 입력">
-                    </div>
-                    <div class="form-btn">
-                        <button type="submit" class="save-btn">추가하기</button>
-                    </div>
-                </form>
+    <div class="modal-stack">
+        <div id="modal-toast" class="modal-message"></div>
+        <div id="temp-edit-modal-content">
+            <span class="close-modal-btn">&times;</span>
+            <div id="modal-tabs">
+                <button type="button" class="modal-tab-btn active" data-tab="add">추가</button>
+                <button type="button" class="modal-tab-btn" data-tab="edit">수정</button>
+                <button type="button" class="modal-tab-btn" data-tab="delete">삭제</button>
             </div>
 
-            <!-- 수정 탭 폼 -->
-            <div id="tab-edit" class="modal-tab">
-                <form id="form-edit-location">
-                    <h2 class="modal-title">교실 수정</h2>
-                    <div class="form-group">
-                        <label for="edit-location-select">교실 선택</label>
-                        <select id="edit-location-select" class="form-control">
-                            <option value="">-- 수정할 교실 선택 --</option>
-                            {% for loc in location_list %}
-                            <option value="{{ loc.location }}">{{ loc.location }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit-purpose">교실 목적 (예 : 1학년 교실)</label>
-                        <input type="text" id="edit-purpose" class="form-control" placeholder="목적 입력">
-                    </div>
-                    <div class="form-btn">
-                        <button type="submit" class="save-btn">수정하기</button>
-                    </div>
-                </form>
-            </div>
+            <input type="hidden" id="csrf_token" name="csrf_token" value="{{ csrf_token() }}">
 
-            <!-- 삭제 탭 폼 -->
-            <div id="tab-delete" class="modal-tab">
-                <form id="form-delete-location">
-                    <h2 class="modal-title">교실 삭제</h2>
-                    <div class="form-group">
-                        <label for="delete-location-select">교실 선택</label>
-                        <select id="delete-location-select" class="form-control">
-                            <option value="">-- 삭제할 교실 선택 --</option>
-                            {% for loc in location_list %}
-                            <option value="{{ loc.location }}">{{ loc.location }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="delete-purpose-readonly">교실 목적</label>
-                        <input type="text" id="delete-purpose-readonly" class="form-control" readonly>
-                    </div>
-                    <div class="form-btn">
-                        <button type="submit" class="delete-btn">삭제하기</button>
-                    </div>
-                </form>
+            <div class="modal-content-area">
+
+                <!-- 추가 탭 폼 -->
+                <div id="tab-add" class="modal-tab active">
+                    <form id="form-add-location">
+                        <h2 class="modal-title">교실 추가</h2>
+                        <div class="form-group">
+                            <label for="add-location">교실 선택</label>
+                            <select id="add-location-select" class="form-control">
+                                <option value="">-- 교실 선택 --</option>
+                                {% for loc in unassigned_locations %}
+                                <option value="{{ loc.location }}">{{ loc.location }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="add-purpose">교실 목적 (예 : 1학년 교실)</label>
+                            <input type="text" id="add-purpose" class="form-control" placeholder="목적 입력">
+                        </div>
+                        <div class="form-btn">
+                            <button type="submit" class="save-btn">추가하기</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- 수정 탭 폼 -->
+                <div id="tab-edit" class="modal-tab">
+                    <form id="form-edit-location">
+                        <h2 class="modal-title">교실 수정</h2>
+                        <div class="form-group">
+                            <label for="edit-location-select">교실 선택</label>
+                            <select id="edit-location-select" class="form-control">
+                                <option value="">-- 수정할 교실 선택 --</option>
+                                {% for loc in location_list %}
+                                <option value="{{ loc.location }}">{{ loc.location }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-purpose">교실 목적 (예 : 1학년 교실)</label>
+                            <input type="text" id="edit-purpose" class="form-control" placeholder="목적 입력">
+                        </div>
+                        <div class="form-btn">
+                            <button type="submit" class="save-btn">수정하기</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- 삭제 탭 폼 -->
+                <div id="tab-delete" class="modal-tab">
+                    <form id="form-delete-location">
+                        <h2 class="modal-title">교실 삭제</h2>
+                        <div class="form-group">
+                            <label for="delete-location-select">교실 선택</label>
+                            <select id="delete-location-select" class="form-control">
+                                <option value="">-- 삭제할 교실 선택 --</option>
+                                {% for loc in location_list %}
+                                <option value="{{ loc.location }}">{{ loc.location }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="delete-purpose-readonly">교실 목적</label>
+                            <input type="text" id="delete-purpose-readonly" class="form-control" readonly>
+                        </div>
+                        <div class="form-btn">
+                            <button type="submit" class="delete-btn">삭제하기</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
