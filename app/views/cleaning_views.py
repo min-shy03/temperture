@@ -219,3 +219,52 @@ def draw() :
     except Exception as e :
         db.session.rollback()
         return jsonify({'success' : False, 'message' : f'DB 저장 오류 {str(e)}'}), 500
+
+# 학년 교체 API
+@bp.route('api/promote', methods=['POST'])
+def promote() :
+    try :
+        # 3학년
+        graduates = ClassMember.query.filter_by(grade=3).all()
+        # 3학년은 정보 삭제
+        if graduates :
+            for member in graduates :
+                db.session.delete(member)
+
+        # 2학년
+        seniors = ClassMember.query.filter_by(grade=2).all()
+        if seniors :
+            for member in seniors :
+                member.grade = 3
+        # 1학년
+        juniors = ClassMember.query.filter_by(grade=1).all()
+        if juniors :
+            for member in juniors :
+                member.grade = 2
+
+        db.session.commit()
+
+        return jsonify({'success' : True, 'message' : "학년을 교체했습니다."}), 200
+    except Exception as e :
+        db.session.rollback()
+        return jsonify({'success' : False, 'message' : f"학년 교체 중 오류 발생 {str(e)}"}), 500
+    
+@bp.route('api/init', methods=['POST'])
+def init() :
+    grade = request.args.get('grade')
+
+    try : 
+        member_list = ClassMember.query.filter_by(grade=grade).all()
+
+        if member_list :
+            for member in member_list :
+                member.check = False
+                member.this_week = False
+
+            db.session.commit()
+
+            return jsonify({'success' : True, 'message' : "청소 당번을 초기화 했습니다."}), 200
+    
+    except Exception as e :
+        db.session.rollback()
+        return jsonify({'success' : False, 'message' : f"당번 초기화 중 오류 발생 {str(e)}"}),500

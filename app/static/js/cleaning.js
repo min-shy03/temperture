@@ -42,6 +42,8 @@ const deleteStudentFields = document.getElementById('delete-student-fields');
 const deleteNameInput = document.getElementById('delete-student-name');
 const deletePositionInput = document.getElementById('delete-student-position');
 
+const formPromote = document.getElementById('form-promote-grade');
+
 function showMessage(message, isSuccess = false) {
     if (!modalToast) return;
     if (toastTimer) {
@@ -417,6 +419,41 @@ if (formDelete) {
     });
 }
 
+if (formPromote) {
+    formPromote.addEventListener('submit', async function (event) {
+        event.preventDefault();
+        hideMessage();
+
+        // (중요) 삭제 확인
+        if (!confirm('학년을 교체하시겠습니까?')) {
+            return; // '취소' 누르면 중단
+        }
+
+        try {
+            const response = await fetch('/cleaning/api/promote', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken
+                }
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                showMessage(result.message, true);
+                setTimeout(() => {
+                    closeModal();
+                    window.location.reload();
+                }, 2000);
+            } else {
+                throw new Error(result.message);
+            }
+        } catch (error) {
+            showMessage(error.message, false);
+        }
+    });
+}
+
 function handleApiResponse(response, tabName) {
     response.json().then(data => {
 
@@ -474,4 +511,38 @@ if (drawButton) {
             alert(error.message || '요청 중 오류가 발생했습니다.');
         }
     });
+}
+
+const initButton = document.getElementById('init-btn');
+
+if (initButton) {
+    initButton.addEventListener('click', async function () {
+        const currentGrade = gradeSelect.value;
+
+        if (!confirm(`${currentGrade}학년 당번을 초기화하시겠습니까?`)) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`/cleaning/api/init?grade=${currentGrade}`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'X-CSRFToken': csrfToken
+                }
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                alert(result.message);
+                window.location.reload();
+            } else {
+                throw new Error(result.message);
+            }
+        } catch (error) {
+            console.error('초기화 중 오류:', error);
+            alert(error.message || '초기화 요청 중 오류가 발생했습니다.');
+        }
+    })
 }

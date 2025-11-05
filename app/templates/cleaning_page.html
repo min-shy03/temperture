@@ -28,7 +28,10 @@
         </ul>
     </div>
     {% if g.admin %}
-    <button type="button" id="cleaning-member-draw">청소 당번 뽑기</button>
+    <div id="cleaning-btns">
+        <button type="button" id="cleaning-member-draw">청소 당번 뽑기</button>
+        <button type="button" id="init-btn">초기화</button>
+    </div>
     {% endif %}
     <div class="status-wrapper">
         <div class="status-box unchecked-box">
@@ -195,6 +198,19 @@
 
                         <div class="form-btn">
                             <button type="submit" class="delete-btn">삭제하기</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- 학년 교체 폼 -->
+                <div id="tab-promote" class="modal-tab">
+                    <form id="form-promote-grade">
+                        <h1>새 학기를 위해 학년을 교체합니다.</h1>
+                        <h2>1학년 -> 2학년</h2>
+                        <h2>2학년 -> 3학년</h2>
+                        <h2>기존 3학년은 데이터가 삭제됩니다.</h2>
+                        <div class="form-btn">
+                            <button type="submit" class="save-btn">교체하기</button>
                         </div>
                     </form>
                 </div>
