@@ -51,7 +51,10 @@
         </tbody>
     </table>
     {% if g.admin %}
-    <button type=" button" class="time-table-edit">시간표 수정하기</button>
+    <div id="time-table-btns">
+        <button type=" button" id="time-table-init" class="time-table-btn">초기화</button>
+        <button type=" button" id="time-table-edit" class="time-table-btn">시간표 수정하기</button>
+    </div>
     {% endif %}
 </div>
 

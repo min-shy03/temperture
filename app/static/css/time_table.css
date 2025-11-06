@@ -33,8 +33,14 @@ th {
     cursor: pointer;
 }
 
-.time-table-edit {
-    margin: 25px 0px 0px 1295px;
+#time-table-btns {
+    display: flex;
+    margin-left: 1150px;
+    gap: 20px;
+}
+
+.time-table-btn {
+    margin-top: 25px;
     padding: 10px 25px;
     background-color: #E6E6FA;
     color: #333333;

@@ -25,7 +25,8 @@ if (semesterSelect) {
 
 
 // 시간표 수정 기능
-const editButton = document.querySelector('.time-table-edit');
+const editButton = document.getElementById('time-table-edit');
+const initButton = document.getElementById('time-table-init');
 const timeTable = document.querySelector('.time-table');
 const allCells = document.querySelectorAll('.time-table-class');
 const modalForm = document.getElementById('time-table-modal-form');
@@ -41,6 +42,42 @@ const modalDeleteBtn = document.querySelector('.delete-btn');
 const colorSwatchesContainer = document.querySelector('.color-swatches')
 const allColorSwatches = colorSwatchesContainer ? colorSwatchesContainer.querySelectorAll('.color-swatch') : [];
 const hiddenColorInput = document.getElementById('modal-color')
+
+// 시간표 초기화 버튼 클릭시 실행할 함수
+if (initButton) {
+    initButton.addEventListener('click', async function (event) {
+        event.preventDefault();
+
+        if (!confirm('시간표를 초기화합니다.')) {
+            return; // '취소' 누르면 중단
+        }
+
+        const currentGrade = gradeSelect.value;
+        const currentSemester = semesterSelect.value;
+
+        try {
+            const response = await fetch(`/time-table/api/init?grade=${currentGrade}&semester=${currentSemester}`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'X-CSRFToken': csrfToken
+                }
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                alert(result.message);
+                window.location.reload();
+            } else {
+                throw new Error(result.message);
+            }
+        } catch (error) {
+            console.error('초기화 중 오류 발생 :', error);
+            alert(error.message || '초기화 요청 중 오류가 발생했습니다.');
+        }
+    });
+}
 
 // 시간표 선택시 실행할 이벤트 함수
 function openEditModal(event) {

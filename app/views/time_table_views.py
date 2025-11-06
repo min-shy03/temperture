@@ -105,3 +105,26 @@ def delete() :
         db.session.rollback()
         print(f"API Delete 오류 : {e}")
         return jsonify({'success' : False, 'message':f'DB 삭제 실패: {e}'}), 500
+    
+@bp.route('api/init', methods=['POST'])
+def init() :
+    grade = request.args.get('grade')
+    semester = request.args.get('semester')
+    
+    if not grade or not semester:
+        return jsonify({'success': False, 'message': '학년과 학기 정보가 필요합니다.'}), 400
+    
+    try :
+        slot = Lectures.query.filter_by(grade=grade, semester=semester).delete(synchronize_session=False)
+
+        if slot == 0 :
+            return jsonify({'success' : False, 'message' : '등록된 강의가 없습니다.'}), 404
+
+        db.session.commit()
+
+        return jsonify({'success' : True, 'message' : '시간표를 초기화 했습니다.'}), 200
+    
+    except Exception as e :
+        db.session.rollback()
+
+        return jsonify({'success' : False, 'message' : '초기화 중 오류 발생'}), 500
