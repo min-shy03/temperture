@@ -1,3 +1,4 @@
+/* --- [1] 기본 데스크탑 스타일 (기존 유지) --- */
 .temp-page {
     margin-top: 70px;
     display: flex;
@@ -10,7 +11,7 @@
 .real-time-data {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: flex-start; /* 상단 정렬 */
     text-align: center;
     gap: 200px;
     font-size: 25px;
@@ -18,16 +19,20 @@
 
 .numerical-data {
     font-size: 100px;
-    margin-bottom: 50px;
+    margin-bottom: 20px; /* 간격 살짝 조정 */
+    font-weight: bold;
 }
 
 .vertical {
     border-left: 2px solid black;
     height: 200px;
+    margin-top: 20px; /* 위치 미세 조정 */
 }
 
 #recommend-temp {
     font-size: 20px;
+    font-weight: bold;
+    color: #555;
 }
 
 .month-datas {
@@ -36,161 +41,244 @@
     display: flex;
     flex-direction: column;
     gap: 30px;
+    width: 90%; /* 전체 폭 제한 */
+    max-width: 1400px;
 }
 
 .month-datas h2 {
     font-size: 30px;
+    margin-bottom: 10px;
 }
 
 .month-data-box {
     display: grid;
     gap: 30px;
+    /* 데스크탑: 한 줄에 6개 */
     grid-template-columns: repeat(6, 1fr);
+    justify-content: center;
 }
 
 .month-box {
     background-color: #E6E6FA;
-    border-radius: 8px;
+    border-radius: 12px; /* 둥근 모서리 강화 */
     text-align: center;
-
-    width: 200px;
+    padding: 10px;
+    
+    /* 고정 크기 대신 유연하게 변경 */
+    width: 100%; 
     height: 150px;
-    font-size: 20px;
+    
+    font-size: 18px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* 살짝 그림자 추가 */
 }
 
+/* 상단 버튼 스타일 */
 .temp-class-edit {
-    padding: 10px 25px;
+    padding: 10px 20px;
     background-color: #E6E6FA;
     color: #333333;
     font-weight: bold;
-    font-size: 25px;
+    font-size: 20px;
     border-radius: 8px;
+    border: 1px solid #ccc;
+    cursor: pointer;
 }
 
 .temp-class-edit:hover {
     background-color: #6772E5;
     color: white;
-    cursor: pointer;
+}
+
+/* --- [2] 모달(팝업) 스타일 --- */
+.edit-modal-backdrop {
+    display: none; /* 기본 숨김 */
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit-modal-backdrop.show {
+    display: flex;
 }
 
 #temp-edit-modal-content {
     background-color: white;
     padding: 30px;
     border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     width: 90%;
     max-width: 500px;
-    max-height: 400px;
-    height: 90%;
+    
+    /* 높이 자동 조절 */
+    height: auto;
+    max-height: 90vh;
+    overflow-y: auto;
+    
     text-align: center;
     position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
+.close-modal-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* 탭 버튼 스타일 */
 #modal-tabs {
-    margin-top: 10px;
     display: flex;
-    justify-content: left;
-    border-bottom: 2px solid black;
-    margin-bottom: 25px;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 20px;
 }
 
 .modal-tab-btn {
-    padding: 10px 20px;
-    font-size: 22px;
-    font-weight: 600;
+    flex: 1;
+    padding: 10px;
+    font-size: 18px;
+    background: none;
     border: none;
-    background-color: transparent;
-    color: #888;
     cursor: pointer;
-    border-bottom: 3px solid transparent;
-    transition: all 0.2s ease-in-out;
-}
-
-.modal-tab-btn:hover {
-    color: #555;
-    background-color: #ecebeb;
+    font-weight: bold;
+    color: #888;
 }
 
 .modal-tab-btn.active {
-    color: black;
-    background-color: rgb(189, 186, 186);
+    color: #333;
+    border-bottom: 3px solid #6772E5;
 }
 
 .modal-tab {
     display: none;
 }
-
 .modal-tab.active {
     display: block;
 }
 
-.modal-title {
-    font-size: 24px;
-    margin: 20px;
-    text-align: center;
-}
-
-#temp-edit-modal-content .form-group {
-    margin-bottom: 20px;
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
 }
 
 .form-group label {
+    font-weight: bold;
     display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-    font-size: 14px;
-    color: #333;
+    margin-bottom: 5px;
 }
 
 .form-control {
     width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
+    padding: 10px;
     font-size: 16px;
-    box-sizing: border-box;
-}
-
-.form-control[readonly] {
-    background-color: #eee;
-    cursor: not-allowed;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 .form-btn {
-    margin-top: 25px;
+    margin-top: 20px;
     display: flex;
     justify-content: flex-end;
 }
 
+/* --- [3] 모바일 반응형 (768px 이하) --- */
 @media (max-width: 768px) {
-
-    .real-time-data {
-        flex-direction: column;
-        align-items: center;
+    /* 전체 레이아웃 간격 축소 */
+    .temp-page {
+        margin-top: 20px;
         gap: 30px;
+        padding-bottom: 50px;
+    }
+
+    /* 1. 상단 타이틀(.page-info) 강제 수정 */
+    /* common.css에 있지만 여기서 덮어씌움 */
+    .page-info {
+        flex-direction: column; /* 세로 정렬 */
+        align-items: center;
+        font-size: 24px !important; /* 글자 크기 축소 */
+        gap: 15px;
+        margin-top: 20px !important;
+    }
+
+    .page-info p {
+        margin: 0;
+        line-height: 1.4;
+        word-break: keep-all; /* 단어 단위 줄바꿈 */
+    }
+
+    /* 선택 박스 및 버튼 모바일 최적화 */
+    #location-select, 
+    .temp-class-edit {
+        width: 100%;
+        max-width: 300px; /* 너무 넓어지지 않게 */
+        font-size: 18px;
+        padding: 8px;
+    }
+
+    /* 2. 실시간 데이터 (온도/습도) */
+    .real-time-data {
+        flex-direction: column; /* 위아래 배치 */
+        align-items: center;
+        gap: 40px;
     }
 
     .vertical {
-        display: none;
+        display: none; /* 가운데 선 숨김 */
+    }
+
+    .numerical-data {
+        font-size: 70px; /* 숫자 크기 축소 */
+        margin-bottom: 10px;
+    }
+    
+    .temp, .humi {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* 추천 온도 멘트 */
+    #recommend-temp {
+        font-size: 16px;
+        padding: 0 20px;
+        line-height: 1.5;
+        text-align: center;
+    }
+
+    /* 3. 월별 데이터 그리드 */
+    .month-datas {
+        width: 95%; /* 모바일에서는 더 넓게 씀 */
+    }
+    
+    .month-datas h2 {
+        font-size: 24px;
     }
 
     .month-data-box {
+        /* 모바일: 한 줄에 2개씩 */
         grid-template-columns: repeat(2, 1fr); 
         gap: 15px;
     }
 
     .month-box {
-        width: 100%;
+        height: 120px; /* 높이 약간 축소 */
+        font-size: 15px; /* 글자 크기 축소 */
+        padding: 8px;
     }
-
-    .numerical-data {
-        font-size: 60px;
+    
+    .month-box p {
+        margin: 2px 0;
     }
-
 }
-
