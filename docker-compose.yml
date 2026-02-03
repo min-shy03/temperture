@@ -5,13 +5,16 @@ services:
     volumes:
       - .:/app
     environment:
-      - FLASK_ENV=development
-      - FLASK_APP=app:create_app
+      - FLASK_ENV=${FLASK_ENV}
+      - FLASK_APP=${FLASK_APP}
       - FLASK_DEBUG=1
-      - REDIS_HOST=redis
+      - REDIS_HOST={REDIS_HOST}
       - REDIS_PORT=6379
+      # [핵심] MySQL 연결 정보 (config.py가 자동으로 읽습니다)
+      - DATABASE_URL=mysql+pymysql://${MYSQL_USER}:${MYSQL_PASSWORD}@db/${MYSQL_DATABASE}
     depends_on:
       - redis
+      - db
     networks:
       - app-network
 
@@ -23,8 +26,8 @@ services:
       - "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
-      - ./data/certbot/conf:/etc/letsencrypt:ro # 읽기 전용
-      - ./data/certbot/www:/var/www/certbot:ro # 읽기 전용
+      - ./data/certbot/conf:/etc/letsencrypt:ro
+      - ./data/certbot/www:/var/www/certbot:ro
     networks:
       - app-network
     depends_on:
@@ -45,6 +48,27 @@ services:
     networks:
       - app-network
 
+  # [추가됨] MySQL 8.0 데이터베이스
+  db:
+    container_name: temperture-db-1
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306" # 외부 접속 허용 (DataGrip용)
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - app-network
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
 networks:
   app-network:
     driver: bridge
+
+volumes:
+  mysql_data:
