@@ -1,25 +1,50 @@
 services:
-  # Flask 웹 앱 서비스
   web:
-    build: . # 현재 폴더의 Dockerfile로 이미지 빌드
-    ports:
-      - "5001:5000" # 내 PC 5000번 포트 <-> 컨테이너 5000번 포트 연결
+    container_name: temperture-web-1
+    build: .
     volumes:
-      # 개발 시 코드 수정 자동 반영 위해 현재 폴더 마운트 (선택 사항)
       - .:/app
     environment:
-      # 컨테이너 내부 환경 변수 설정
-      - FLASK_ENV=development # 개발 모드
-      - FLASK_APP=app:create_app # Flask 앱 위치 (app/__init__.py의 create_app)
-      - FLASK_DEBUG=1 # 디버그 모드
-      # 중요: Redis 서비스 이름('redis')으로 접속하도록 설정
+      - FLASK_ENV=development
+      - FLASK_APP=app:create_app
+      - FLASK_DEBUG=1
       - REDIS_HOST=redis
       - REDIS_PORT=6379
     depends_on:
-      - redis # Redis가 먼저 켜진 후 웹 앱 시작
+      - redis
+    networks:
+      - app-network
 
-  # Redis 서비스
-  redis:
-    image: "redis:alpine" # 공식 Redis 이미지 (가벼운 버전) 사용
+  nginx:
+    container_name: temperture-nginx-1
+    image: nginx:latest
     ports:
-      - "6379:6379" # Redis 포트 연결 (선택 사항)
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./data/certbot/conf:/etc/letsencrypt:ro # 읽기 전용
+      - ./data/certbot/www:/var/www/certbot:ro # 읽기 전용
+    networks:
+      - app-network
+    depends_on:
+      - web
+
+  certbot:
+    container_name: temperture-certbot-1
+    image: certbot/certbot
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    networks:
+      - app-network
+
+  redis:
+    container_name: temperture-redis-1
+    image: "redis:alpine"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

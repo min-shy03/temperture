@@ -1,4 +1,25 @@
-__pycache__/
-*.db
-*.pem
+# === 1. 보안 및 설정 (절대 금지) ===
 .env
+data/
+certbot/
+*.pem
+*.key
+
+# === 2. 파이썬 관련 찌꺼기 ===
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+
+# === 3. 데이터베이스 및 로그 ===
+*.db
+*.sqlite3
+*.log
+
+# === 4. 운영체제 및 도구 설정 ===
+.DS_Store
+.idea/
+.vscode/
+Thumbs.db
