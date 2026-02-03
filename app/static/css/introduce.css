@@ -1,3 +1,4 @@
+/* --- [1] PC 전용: 기존 디자인 100% 복구 --- */
 .introduce-page {
     display: flex;
     flex-direction: column;
@@ -74,6 +75,7 @@
     color: #333333;
 }
 
+/* [핵심] 아까 누락되어 사고 났던 로고 크기 복구 */
 .logo {
     margin-right: 5px;
     width: 20px;
@@ -86,4 +88,56 @@
 
 .introduce-page h2 {
     font-size: 30px;
+}
+
+/* --- [2] 모바일 전용: 768px 이하에서만 작동 --- */
+@media (max-width: 768px) {
+    .introduce-page {
+        margin-top: 20px;
+        gap: 30px;
+        padding: 0 15px;
+    }
+
+    /* 유튜브 영상 세로 배치 및 반응형 */
+    .introduce-page > div:first-child {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    iframe {
+        width: 100% !important;
+        height: auto;
+        aspect-ratio: 16 / 9;
+    }
+
+    /* 교수님 카드 화면 꽉 차게 */
+    .professor {
+        width: 100%;
+        height: auto;
+        padding: 30px 0;
+    }
+
+    /* 지도 영역 세로 배치 */
+    .location {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .location > div:first-child {
+        width: 100% !important;
+    }
+
+    .map {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    /* 하단 SNS 버튼 세로 배치 */
+    .etc-info {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
 }

@@ -166,3 +166,31 @@
     display: flex;
     justify-content: flex-end;
 }
+
+@media (max-width: 768px) {
+
+    .real-time-data {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .vertical {
+        display: none;
+    }
+
+    .month-data-box {
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 15px;
+    }
+
+    .month-box {
+        width: 100%;
+    }
+
+    .numerical-data {
+        font-size: 60px;
+    }
+
+}
+

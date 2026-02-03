@@ -5,6 +5,7 @@
     justify-content: center;
     align-items: center;
     gap: 20px;
+    width: 100%;
 }
 
 .login-box {
@@ -15,8 +16,10 @@
     gap: 20px;
     border-radius: 5px;
     background-color: white;
-    width: 500px;
-    height: 250px;
+    width: 90%;
+    max-width: 500px;
+    height: auto;
+    min-height: 250px;
     border: 1px solid #adadad;
     border-radius: 8px;
 }
@@ -84,4 +87,20 @@
 
 .alert p {
     color: red;
+}
+
+@media (max-width: 768px) {
+    .login-page {
+        margin-top: 30px;
+    }
+
+    .login-box {
+        width: 95%;
+        padding: 30px 0;
+    }
+
+    #login-button {
+        width: 90%;
+        height: 60px;
+    }
 }

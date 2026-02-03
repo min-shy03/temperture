@@ -149,3 +149,24 @@
     justify-content: center;
     align-items: center;
 }
+
+@media (max-width: 768px) {
+    #this-week-member-list {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #this-week-member-list li {
+        width: 90%; 
+        font-size: 30px;
+    }
+
+    .status-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .status-box {
+        width: 95%;
+    }
+}
