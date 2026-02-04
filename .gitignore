@@ -23,3 +23,5 @@ env/
 .idea/
 .vscode/
 Thumbs.db
+
+create_admin.py

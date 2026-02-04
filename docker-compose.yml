@@ -10,6 +10,7 @@ services:
       - FLASK_ENV=${FLASK_ENV}
       - FLASK_APP=${FLASK_APP}
       - FLASK_DEBUG=1
+      - SECRET_KEY=${SECRET_KEY}
       - REDIS_HOST=${REDIS_HOST}
       - REDIS_PORT=6379
       # [핵심] @db -> @shared-mysql-server 로 변경됨 (공용 DB 접속)
